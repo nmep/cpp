@@ -40,29 +40,25 @@ class PhoneBook
 	}
 
 	// Getters
-	void	get_contact_first_name(int index) const {
-		Object_Contact[index].get_first_name();
-		return ;
+	std::string	get_contact_first_name(int index) const {
+		return (Object_Contact[index].get_first_name());
+		// return ;
 	}
 
-	void	get_contact_last_name(int index) const {
-		Object_Contact[index].get_last_name();
-		return ;
+	std::string	get_contact_last_name(int index) const {
+		return Object_Contact[index].get_last_name();
 	}
 
-	void	get_contact_nickname(int index) const {
-		Object_Contact[index].get_nickname();
-		return ;
+	std::string	get_contact_nickname(int index) const {
+		return (Object_Contact[index].get_nickname());
 	}
 
-	void	get_contact_phone_number(int index) const {
-		Object_Contact[index].get_phone_number();
-		return ;
+	std::string	get_contact_phone_number(int index) const {
+		return (Object_Contact[index].get_phone_number());
 	}
 
-	void	get_contact_darkest_secret(int index) const {
-		Object_Contact[index].get_darkest_secret();
-		return ;
+	std::string	get_contact_darkest_secret(int index) const {
+		return (Object_Contact[index].get_darkest_secret());
 	}
 
 };

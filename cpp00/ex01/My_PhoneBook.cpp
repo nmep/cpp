@@ -1,9 +1,8 @@
 # include "PhoneBook.class.hpp"
 
 
-int	ft_add(PhoneBook pb)
+int	ft_add(PhoneBook pb, int *i, int *nb_contact)
 {
-	static int	i = 0;
 	std::string	line2;
 	const char*	tab[] = {
 		"First Name: ",
@@ -25,15 +24,15 @@ int	ft_add(PhoneBook pb)
 				return (0);
 			}
 			// prendre first name
-			pb.set_contact_first_name(i, line2);
+			pb.set_contact_first_name(*i, line2);
 			// prendre last name
-			pb.set_contact_last_name(i, line2);
+			pb.set_contact_last_name(*i, line2);
 			// prendre nickname
-			pb.set_contact_nickname(i, line2);
+			pb.set_contact_nickname(*i, line2);
 			// prendre phone number
-			pb.set_contact_phone_number(i, line2);
+			pb.set_contact_phone_number(*i, line2);
 			// prendre darkest secret
-			pb.set_contact_darkest_secret(i, line2);
+			pb.set_contact_darkest_secret(*i, line2);
 		}
 		else
 		{
@@ -42,12 +41,21 @@ int	ft_add(PhoneBook pb)
 		}
 	}
 	i++;
-	if (i > 7)
-		i = 0;
+	if (*nb_contact < 8)
+		(*nb_contact)++;
+	if ((*i) > 7)
+		*i = 0;
 	return (1);
 }
 
-int	ft_search(PhoneBook pb)
+void	ft_get_contact_data(PhoneBook pb, int i)
+{
+	std::cout << "trouve" << std::endl;
+	return ;
+}
+
+
+int	ft_search(PhoneBook pb, int nb_contact)
 {
 	std::string	line3;
 	std::cout << "Contact to search: " << std::endl;
@@ -58,10 +66,21 @@ int	ft_search(PhoneBook pb)
 		std::cin.clear();
 		return (0);
 	}
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < nb_contact; i++)
 	{
-		
+		if (pb.get_contact_first_name(i) == line3)
+			ft_get_contact_data(pb, i);
+		else if (pb.get_contact_last_name(i) == line3)
+			ft_get_contact_data(pb, i);
+		else if (pb.get_contact_nickname(i) == line3)
+			ft_get_contact_data(pb, i);
+		else if (pb.get_contact_phone_number(i) == line3)
+			ft_get_contact_data(pb, i);
+		else if (pb.get_contact_darkest_secret(i) == line3)
+			ft_get_contact_data(pb, i);
 	}
+	if (nb_contact == 0)
+		std::cout << "There is no contact in Phone Book" << std::endl;
 	return (1);
 }
 
@@ -69,6 +88,8 @@ int	main()
 {
 	PhoneBook		pb;
 	std::string		line;
+	int				i = 0;
+	int				nb_contact = 0;
 
 	while (std::cin)
 	{
@@ -81,7 +102,7 @@ int	main()
 		}
 		if (line == "ADD")
 		{
-			if (!ft_add(pb))
+			if (!ft_add(pb, &i, &nb_contact))
 			{
 				std::cout << "eof" << std::endl;
 				return (2);
@@ -89,7 +110,7 @@ int	main()
 		}
 		else if (line == "SEARCH")
 		{
-			ft_search(pb);
+			ft_search(pb, nb_contact);
 		}
 		std::cout << line << std::endl;
 	}

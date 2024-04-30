@@ -44,29 +44,28 @@ class Contact
 		}
 
 		// getteur
-		void	get_first_name(void) const {
-			std::cout << "first name =" << _first_name << std::endl;
-			return ;
+		std::string	get_first_name(void) const {
+			return _first_name;
 		}
 
-		void	get_last_name(void) const {
+		std::string	get_last_name(void) const {
 			std::cout << _last_name << std::endl;
-			return ;
+			return _last_name;
 		}
 
-		void	get_nickname(void) const {
+		std::string	get_nickname(void) const {
 			std::cout << _nickname << std::endl;
-			return ;
+			return _nickname;
 		}
 
-		void	get_phone_number(void) const {
+		std::string	get_phone_number(void) const {
 			std::cout << _phone_number << std::endl;
-			return ;
+			return _phone_number;
 		}
 
-		void	get_darkest_secret(void) const {
+		std::string	get_darkest_secret(void) const {
 			std::cout << _darkest_secret << std::endl;
-			return ;
+			return _darkest_secret;
 		}
 };
 
