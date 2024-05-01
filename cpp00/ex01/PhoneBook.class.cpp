@@ -2,10 +2,10 @@
 
 PhoneBook::PhoneBook(void)
 {
-	std::cout << "Phone book constructor" << std::endl;
+	std::cout << ANSI_COLOR_BLUE << "Phone book constructor" << ANSI_COLOR_RESET << std::endl;
 }
 
 PhoneBook::~PhoneBook(void)
 {
-	std::cout << "Phone Book destructor" << std::endl;
+	std::cout << ANSI_COLOR_RED << "Phone Book destructor" << ANSI_COLOR_RESET << std::endl;
 }

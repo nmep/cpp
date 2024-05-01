@@ -4,7 +4,10 @@
 # include <iostream>
 # include <string>
 # include <string.h>
+# include <cstdlib>
 # include "Contact.class.hpp"
+# include <limits.h>
+# include <stdbool.h>
 
 class PhoneBook
 {

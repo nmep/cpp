@@ -4,6 +4,15 @@
 # include <iostream>
 # include <string>
 
+#define ANSI_COLOR_RED		"\033[1;31m"
+#define ANSI_COLOR_GREEN	"\033[1;32m"
+#define ANSI_COLOR_YELLOW	"\033[1;33m"
+#define ANSI_COLOR_BLUE		"\033[1;34m"
+#define ANSI_COLOR_MAGENT	"\033[1;35m"
+#define ANSI_COLOR_CYAN		"\033[1;36m"
+#define ANSI_COLOR_WHITE	"\033[1;37m"
+#define ANSI_COLOR_RESET	"\033[0m"
+
 class Contact
 {
 	private:
@@ -49,22 +58,18 @@ class Contact
 		}
 
 		std::string	get_last_name(void) const {
-			std::cout << _last_name << std::endl;
 			return _last_name;
 		}
 
 		std::string	get_nickname(void) const {
-			std::cout << _nickname << std::endl;
 			return _nickname;
 		}
 
 		std::string	get_phone_number(void) const {
-			std::cout << _phone_number << std::endl;
 			return _phone_number;
 		}
 
 		std::string	get_darkest_secret(void) const {
-			std::cout << _darkest_secret << std::endl;
 			return _darkest_secret;
 		}
 };
