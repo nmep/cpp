@@ -18,52 +18,27 @@ class PhoneBook
 		PhoneBook(void);
 		~PhoneBook(void);
 	// Setters
-	void	set_contact_first_name(int index, std::string line) {
-		Object_Contact[index].set_first_name(line);
-		return ;
-	}
-
-	void	set_contact_last_name(int index, std::string line) {
-		Object_Contact[index].set_last_name(line);
-		return ;
-	}
-
-	void	set_contact_nickname(int index, std::string line) {
-		Object_Contact[index].set_nickname(line);
-		return ;
-	}
-
-	void	set_contact_phone_number(int index, std::string line) {
-		Object_Contact[index].set_phone_number(line);
-		return ;
-	}
-	void	set_contact_darkest_secret(int index, std::string line) {
-		Object_Contact[index].set_darkest_secret(line);
-		return ;
-	}
+	void	set_contact_first_name(int index, std::string line);
+	void	set_contact_last_name(int index, std::string line);
+	void	set_contact_nickname(int index, std::string line);
+	void	set_contact_phone_number(int index, std::string line);
+	void	set_contact_darkest_secret(int index, std::string line);
 
 	// Getters
-	std::string	get_contact_first_name(int index) const {
-		return (Object_Contact[index].get_first_name());
-		// return ;
-	}
+	std::string	get_contact_first_name(int index) const;
+	std::string	get_contact_last_name(int index) const;
+	std::string	get_contact_nickname(int index) const;
+	std::string	get_contact_phone_number(int index) const;
+	std::string	get_contact_darkest_secret(int index) const;
 
-	std::string	get_contact_last_name(int index) const {
-		return Object_Contact[index].get_last_name();
-	}
-
-	std::string	get_contact_nickname(int index) const {
-		return (Object_Contact[index].get_nickname());
-	}
-
-	std::string	get_contact_phone_number(int index) const {
-		return (Object_Contact[index].get_phone_number());
-	}
-
-	std::string	get_contact_darkest_secret(int index) const {
-		return (Object_Contact[index].get_darkest_secret());
-	}
-
+	// Methode
+	bool	ft_atoi(const char *str, int *res);
+	int		ft_get_line(std::string *line);
+	int		ft_check_line(std::string line);
+	int		ft_add(int *i, int *nb_contact);
+	void	ft_get_contact_data(int i);
+	int		ft_is_num(const char *str);
+	int		ft_search(int nb_contact);
 };
 
 # endif

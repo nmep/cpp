@@ -23,7 +23,7 @@ $(NAME): $(OBJ)
 	$(CC) $(flags) $(OBJ) -o $@
 
 clean:
-	rm -v $(OBJ)
+	rm -v $(OBJ) $(DEP_FILES)
 
 fclean: clean
 	rm -v $(NAME)

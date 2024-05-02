@@ -13,6 +13,8 @@
 #define ANSI_COLOR_WHITE	"\033[1;37m"
 #define ANSI_COLOR_RESET	"\033[0m"
 
+
+
 class Contact
 {
 	private:

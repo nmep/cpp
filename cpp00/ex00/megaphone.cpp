@@ -1,6 +1,5 @@
 # include <iostream>
 
-using namespace std;
 
 void	str_to_upper(const char *str)
 {
@@ -8,9 +7,9 @@ void	str_to_upper(const char *str)
 	while (str[i])
 	{
 		if (str[i] >= 'a' && str[i] <= 'z')
-			cout << (char) toupper(str[i]);
+			std::cout << (char) toupper(str[i]);
 		else
-			cout << str[i];
+			std::cout << str[i];
 		i++;
 	}
 }
@@ -18,12 +17,12 @@ void	str_to_upper(const char *str)
 int	main(int ac, char **av)
 {
 	if (ac < 2)
-		return (cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << endl, 0);
+		return (std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl, 0);
 	while (*(++av) && *(av + 1))
 	{
 		str_to_upper(*av);
-		cout << " ";
+		std::cout << " ";
 	}
 	str_to_upper(*av);
-	cout << endl;
+	std::cout << std::endl;
 }
