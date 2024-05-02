@@ -213,7 +213,6 @@ int	main()
 	std::string		line;
 	int				i = 0;
 	int				nb_contact = 0;
-	int				key = 0;
 
 	while (std::cin)
 	{
