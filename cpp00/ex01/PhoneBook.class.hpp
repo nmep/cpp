@@ -36,7 +36,7 @@ class PhoneBook
 	int		ft_get_line(std::string *line);
 	int		ft_check_line(std::string line);
 	int		ft_add(int *i, int *nb_contact);
-	void	ft_get_contact_data(int i);
+	void	ft_get_contact_data(int i, int ds);
 	int		ft_is_num(const char *str);
 	int		ft_search(int nb_contact);
 };

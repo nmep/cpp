@@ -207,7 +207,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	return (1);
 }
 
-void	PhoneBook::ft_get_contact_data(int i)
+void	PhoneBook::ft_get_contact_data(int i, int ds)
 {
 	// recuperer les donnees
 	std::string	tab[5][1] = {
@@ -226,13 +226,27 @@ void	PhoneBook::ft_get_contact_data(int i)
 	// afficher
 		// faire une boucle
 	std::cout << ANSI_COLOR_YELLOW << "Contact data:" << ANSI_COLOR_RESET << std::endl;
-	for (int i = 0; i < 4; i++)
+	if (ds)
 	{
-		std::cout << tab[i][0];
-		if (i < 3)
-			std::cout << " | ";
-		else
-			std::cout << std::endl;
+		for (int i = 0; i < 5; i++)
+		{
+			std::cout << tab[i][0];
+			if (i < 4)
+				std::cout << " | ";
+			else
+				std::cout << std::endl;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			std::cout << tab[i][0];
+			if (i < 3)
+				std::cout << " | ";
+			else
+				std::cout << std::endl;
+		}
 	}
 	return ;
 }
@@ -272,10 +286,7 @@ int	PhoneBook::ft_search(int nb_contact)
 	for (int i = 0; i < nb_contact; i++)
 	{
 		std::cout << (i + 1) << " | ";
-		std::cout << get_contact_first_name(i) << " | ";
-		std::cout << get_contact_last_name(i) << " | ";
-		std::cout << get_contact_nickname(i) << " | ";
-		std::cout << get_contact_phone_number(i) << std::endl;
+		ft_get_contact_data(i, 0);
 	}
 
 	std::cout << "Contact Number to search (1 - 8): " << std::endl;
@@ -311,7 +322,7 @@ int	PhoneBook::ft_search(int nb_contact)
 	}
 
 	if (Contact_to_search <= nb_contact)
-		ft_get_contact_data(Contact_to_search - 1);
+		ft_get_contact_data(Contact_to_search - 1, 1);
 	else
 		std::cerr << ANSI_COLOR_RED << "there is not " << Contact_to_search << " Contact max " << nb_contact << std::endl;
 	return (1);
