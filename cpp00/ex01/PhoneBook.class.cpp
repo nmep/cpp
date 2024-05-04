@@ -225,17 +225,10 @@ void	PhoneBook::ft_get_contact_data(int i, int ds)
 	}
 	// afficher
 		// faire une boucle
-	std::cout << ANSI_COLOR_YELLOW << "Contact data:" << ANSI_COLOR_RESET << std::endl;
 	if (ds)
 	{
 		for (int i = 0; i < 5; i++)
-		{
-			std::cout << tab[i][0];
-			if (i < 4)
-				std::cout << " | ";
-			else
-				std::cout << std::endl;
-		}
+			std::cout << tab[i][0] << std::endl;
 	}
 	else
 	{
@@ -283,6 +276,7 @@ int	PhoneBook::ft_search(int nb_contact)
 	if (nb_contact == 0)
 		return (std::cout << "There is no contact in Phone Book" << std::endl, 1);
 
+	std::cout << ANSI_COLOR_YELLOW << "Contact data:" << ANSI_COLOR_RESET << std::endl;
 	for (int i = 0; i < nb_contact; i++)
 	{
 		std::cout << (i + 1) << " | ";
