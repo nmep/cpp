@@ -95,14 +95,17 @@ int	PhoneBook::ft_get_line(std::string *line)
 
 	if (std::getline(std::cin, get_line))
 	{
+		*line = get_line;
+		return (1);
+	}
+	else
+	{
 		if (std::cin.fail() || std::cin.eof())
 		{
-			std::cerr << "Error with input data" << std::endl;
+			std::cout << "Error with input data" << std::endl;
 			std::cin.clear();
 			return (0);
 		}
-		*line = get_line;
-		return (1);
 	}
 	return (0);
 }
@@ -110,10 +113,10 @@ int	PhoneBook::ft_get_line(std::string *line)
 int	PhoneBook::ft_check_line(std::string line)
 {
 	if (line.find("\x1b[A") <= line.length() || line.find("\x1b[B") <= line.length() || 
-		line.find("\x1b[C") <= line.length() || line.find("\x1D[A") <= line.length() 
+		line.find("\x1b[C") <= line.length() || line.find("\x1b[D") <= line.length() 
 		|| line.find("\t") <= line.length())
 		{
-			std::cerr << ANSI_COLOR_CYAN << "Escape code not accepted" << ANSI_COLOR_RESET << std::endl;
+			std::cerr << ANSI_COLOR_CYAN << "Escape code and tab not accepted" << ANSI_COLOR_RESET << std::endl;
 			return (0);
 		}
 	return (1);
@@ -134,33 +137,68 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << tab[j++] << std::endl;
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
+	{
+		if (!ft_check_line(line2))
+			return (1);
 		this->set_contact_first_name(*i, line2);
+	}
 	else
+	{
+		std::cerr << "Error with getline" << std::endl;
 		return (0);
+	}
 	std::cout << tab[j++] << std::endl;
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
+	{
+		if (!ft_check_line(line2))
+			return (1);
 		this->set_contact_last_name(*i, line2);
+	}
 	else
+	{
+		std::cerr << "Error with getline" << std::endl;
 		return (0);
+	}
 	std::cout << tab[j++] << std::endl;
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
+	{
+		if (!ft_check_line(line2))
+			return (1);
 		this->set_contact_nickname(*i, line2);
+	}
 	else
+	{
+		std::cerr << "Error with getline" << std::endl;
 		return (0);
+	}
 	std::cout << tab[j++] << std::endl;
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
+	{
+		if (!ft_check_line(line2))
+			return (1);
 		this->set_contact_phone_number(*i, line2);
+	}
 	else
+	{
+		std::cerr << "Error with getline" << std::endl;
 		return (0);
+	}
 	std::cout << tab[j] << std::endl;
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
+	{
+		if (!ft_check_line(line2))
+			return (1);
 		this->set_contact_darkest_secret(*i, line2);
+	}
 	else
+	{
+		std::cerr << "Error with getline" << std::endl;
 		return (0);
+	}
 	(*i)++;
 	if (*nb_contact < 8)
 		(*nb_contact)++;
@@ -172,15 +210,15 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 void	PhoneBook::ft_get_contact_data(int i)
 {
 	// recuperer les donnees
-	std::string	tab[4][1] = {
+	std::string	tab[5][1] = {
 		{this->get_contact_first_name(i)},
 		{this->get_contact_last_name(i)},
 		{this->get_contact_nickname(i)},
-		{this->get_contact_phone_number(i)}
+		{this->get_contact_phone_number(i)},
+		{this->get_contact_darkest_secret(i)}
 	};
-	std::cout << "hello" << std::endl;
 	// trunc la donnee avec un point au 10eme char si elle fait plus de 10 char
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (tab[i]->length() > 10)
 			tab[i][0] = tab[i]->substr(0, 9) + ".";
@@ -230,6 +268,16 @@ int	PhoneBook::ft_search(int nb_contact)
 
 	if (nb_contact == 0)
 		return (std::cout << "There is no contact in Phone Book" << std::endl, 1);
+
+	for (int i = 0; i < nb_contact; i++)
+	{
+		std::cout << (i + 1) << " | ";
+		std::cout << get_contact_first_name(i) << " | ";
+		std::cout << get_contact_last_name(i) << " | ";
+		std::cout << get_contact_nickname(i) << " | ";
+		std::cout << get_contact_phone_number(i) << std::endl;
+	}
+
 	std::cout << "Contact Number to search (1 - 8): " << std::endl;
 	while (true)
 	{
@@ -259,10 +307,12 @@ int	PhoneBook::ft_search(int nb_contact)
 	if (Contact_to_search > 8 || Contact_to_search < 1)
 	{
 		std::cout << ANSI_COLOR_GREEN << "I Said 1 - 8 not: " << Contact_to_search << ANSI_COLOR_RESET << std::endl;
-		return (0);
+		return (1);
 	}
 
 	if (Contact_to_search <= nb_contact)
 		ft_get_contact_data(Contact_to_search - 1);
+	else
+		std::cerr << ANSI_COLOR_RED << "there is not " << Contact_to_search << " Contact max " << nb_contact << std::endl;
 	return (1);
 }

@@ -12,7 +12,7 @@ header =	./Contact.class.hpp \
 
 CC = g++
 
-flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP
+flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3
 
 all: $(NAME)
 
