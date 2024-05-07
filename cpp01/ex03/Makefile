@@ -1,14 +1,18 @@
-NAME = My_Phone_Book
+NAME = Violence_inutile
 
-SRC =	./Contact.class.cpp \
-		./My_PhoneBook.cpp \
-		./PhoneBook.class.cpp
+SRC =	./Weapon.cpp\
+		./HumanA.cpp\
+		./HumanB.cpp\
+		./main.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header =	./Contact.class.hpp \
-			./PhoneBook.class.hpp
+header =	./Weapon.hpp\
+			./HumanA.hpp\
+			./HumanB.hpp
+
 
 CC = g++
 

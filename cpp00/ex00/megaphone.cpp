@@ -1,7 +1,7 @@
 # include <iostream>
 
 
-void	str_to_upper(const char *str)
+void	str_to_upper(std::string str)
 {
 	int	i = 0;
 	while (str[i])
@@ -18,10 +18,13 @@ int	main(int ac, char **av)
 {
 	if (ac < 2)
 		return (std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl, 0);
-	while (*(++av) && *(av + 1))
+	if (ac > 1)
 	{
-		str_to_upper(*av);
-		std::cout << " ";
+		while (*(++av) && *(av + 1))
+		{
+			str_to_upper(*av);
+			std::cout << " ";
+		}
 	}
 	str_to_upper(*av);
 	std::cout << std::endl;

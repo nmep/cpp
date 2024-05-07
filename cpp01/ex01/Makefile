@@ -1,14 +1,13 @@
-NAME = My_Phone_Book
+NAME = Zombie
 
-SRC =	./Contact.class.cpp \
-		./My_PhoneBook.cpp \
-		./PhoneBook.class.cpp
+SRC =	./Zombie.cpp \
+		./zombieHorde.cpp \
+		./main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header =	./Contact.class.hpp \
-			./PhoneBook.class.hpp
+header =	./Zombie.hpp
 
 CC = g++
 

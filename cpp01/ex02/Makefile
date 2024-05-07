@@ -1,18 +1,13 @@
-NAME = My_Phone_Book
+NAME = Zombie
 
-SRC =	./Contact.class.cpp \
-		./My_PhoneBook.cpp \
-		./PhoneBook.class.cpp
+SRC =	./main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header =	./Contact.class.hpp \
-			./PhoneBook.class.hpp
-
 CC = g++
 
-flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3
+flags = -Wall -Wextra -Werror -std=c++98 -g3
 
 all: $(NAME)
 
@@ -33,5 +28,3 @@ re: fclean all
 test: 
 	echo $(SRC)
 	echo $(OBJ)
-
--include $(DEP_FILES)

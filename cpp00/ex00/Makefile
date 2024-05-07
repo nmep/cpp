@@ -1,29 +1,30 @@
 NAME = megaphone
 
-C = g++
-
-FLAGS = -Wall -Wextra -Werror -std=c++98
-
-SRC = megaphone.cpp
+SRC =	./megaphone.cpp
 
 OBJ = $(SRC:.cpp=.o)
+DEP_FILES = $(OBJ:.o=.d)
 
-.c.o:
-	$(C) $(FLAGS) -c $(obj)
+CC = g++
+
+flags = -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
+%.o: %.cpp
+	$(CC) $(flags) -c $< -o $(<:.cpp=.o)
+
 $(NAME): $(OBJ)
-	$(C) $(FLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(flags) $(OBJ) -o $@
 
 clean:
-	rm -f $(OBJ)
-
+	rm -f $(OBJ) $(DEP_FILES)
 
 fclean: clean
 	rm -f $(NAME)
 
-# test: 
-# 	echo $(SRC)
+re: fclean all
 
-.PHONY: all clean fclean
+test: 
+	echo $(SRC)
+	echo $(OBJ)

@@ -122,6 +122,20 @@ int	PhoneBook::ft_check_line(std::string line)
 	return (1);
 }
 
+int	ft_line_length(std::string *line)
+{
+	int	len = line->length();
+
+	if (len == 0)
+	{
+		std::cerr << "empty line" << std::endl;
+		return (0);
+	}
+	for (; len <= 10; len++)
+		*line += ".";
+	return (1);
+}
+
 int	PhoneBook::ft_add(int *i, int *nb_contact)
 {
 	std::string	line2;
@@ -138,7 +152,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
 	{
-		if (!ft_check_line(line2))
+		if (!ft_check_line(line2) || !ft_line_length(&line2))
 			return (1);
 		this->set_contact_first_name(*i, line2);
 	}
@@ -151,7 +165,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
 	{
-		if (!ft_check_line(line2))
+		if (!ft_check_line(line2) || !ft_line_length(&line2))
 			return (1);
 		this->set_contact_last_name(*i, line2);
 	}
@@ -164,7 +178,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
 	{
-		if (!ft_check_line(line2))
+		if (!ft_check_line(line2) || !ft_line_length(&line2))
 			return (1);
 		this->set_contact_nickname(*i, line2);
 	}
@@ -177,7 +191,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
 	{
-		if (!ft_check_line(line2))
+		if (!ft_check_line(line2) || !ft_line_length(&line2))
 			return (1);
 		this->set_contact_phone_number(*i, line2);
 	}
@@ -190,7 +204,7 @@ int	PhoneBook::ft_add(int *i, int *nb_contact)
 	std::cout << "$> ";
 	if (ft_get_line(&line2))
 	{
-		if (!ft_check_line(line2))
+		if (!ft_check_line(line2) || !ft_line_length(&line2))
 			return (1);
 		this->set_contact_darkest_secret(*i, line2);
 	}
