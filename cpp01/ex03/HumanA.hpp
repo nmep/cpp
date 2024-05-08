@@ -1,5 +1,5 @@
-#ifndef HUMAN_A
-# define HUMAN_A
+#ifndef HUMANA_HPP
+# define HUMANA_HPP
 
 # include "Weapon.hpp"
 
