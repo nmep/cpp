@@ -1,11 +1,12 @@
 NAME = HarlFilter
 
-SRC =	$(shell find . -name "*.cpp")
+SRC =	./Harl.cpp\
+		./main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header =	$(shell find . -name "*.hpp")
+header =	./Harl.hpp
 
 CC = g++
 

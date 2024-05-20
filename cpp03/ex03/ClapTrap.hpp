@@ -7,9 +7,9 @@
 	{
 		protected:
 			std::string _name;
-			unsigned int	_HitPoint;
-			unsigned int	_EnergyPoint;
-			unsigned int _AttackDamage;
+			int	_HitPoint;
+			int	_EnergyPoint;
+			int _AttackDamage;
 
 		public:
 			ClapTrap( void );
@@ -17,14 +17,14 @@
 			ClapTrap( const ClapTrap &copy );
 			~ClapTrap();
 
-			const std::string					GetName( void );
-			unsigned int						GetHitPoint( void );
-			unsigned int						GetEnergyPoint( void );
-			unsigned int						GetAttackDamage( void );
+			const std::string		GetName( void );
+			int						GetHitPoint( void );
+			int						GetEnergyPoint( void );
+			int						GetAttackDamage( void );
 
 			void	attack(const std::string & target);
-			void	takeDamage(unsigned int amount);
-			void	beRepaired(unsigned int amount);
+			void	takeDamage(int amount);
+			void	beRepaired(int amount);
 
 			ClapTrap&	operator=(const ClapTrap& rhs);
 	};

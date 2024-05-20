@@ -1,6 +1,5 @@
 # include <iostream>
 
-
 void	str_to_upper(std::string str)
 {
 	int	i = 0;

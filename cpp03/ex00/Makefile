@@ -1,11 +1,12 @@
 NAME = Aaaaand...OPEN!
 
-SRC = $(shell find . -name "*.cpp")
+SRC =	./ClapTrap.cpp\
+		./main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header = ./ClapTrap.hpp
 
 CC = g++
 

@@ -1,11 +1,16 @@
 NAME = SerenaMyLove
 
-SRC = $(shell find . -name "*.cpp")
+SRC =	./ClapTrap.cpp \
+		./main.cpp \
+		./ScavTrap.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header =	./ClapTrap.hpp \
+			./ScavTrap.hpp
+
 
 CC = g++
 

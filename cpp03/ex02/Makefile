@@ -1,11 +1,18 @@
 NAME = RepetitiveWork
 
-SRC = $(shell find . -name "*.cpp")
+SRC =	./ClapTrap.cpp\
+		./main.cpp\
+		./ScavTrap.cpp\
+		./FragTrap.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header =	./ClapTrap.hpp\
+			./ScavTrap.hpp\
+			./FragTrap.hpp
+
 
 CC = g++
 

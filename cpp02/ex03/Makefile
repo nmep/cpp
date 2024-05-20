@@ -1,4 +1,4 @@
-NAME = Fixed
+NAME = Bsp
 
 SRC =	$(shell find -name "*.cpp")
 

@@ -1,11 +1,19 @@
 NAME = DiamondTrap
 
-SRC = $(shell find . -name "*.cpp")
+SRC =	./ClapTrap.cpp\
+		./FragTrap.cpp\
+		./main.cpp\
+		./ScavTrap.cpp\
+		./DiamondTrap.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header =	./ClapTrap.hpp\
+			./FragTrap.hpp\
+			./ScavTrap.hpp\
+			./DiamondTrap.hpp
 
 CC = g++
 
