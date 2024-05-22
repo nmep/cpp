@@ -1,6 +1,6 @@
 # include "Amateria.hpp"
 
-AMateria::AMateria( void )
+AMateria::AMateria( void ) : _type("default")
 {
 	std::cout << "Amateria default constructor" << std::endl;
 }
@@ -8,6 +8,17 @@ AMateria::AMateria( void )
 AMateria::AMateria( std::string const & type ) : _type(type)
 {
 	std::cout << "Amaterica assignement constructor called" << std::endl;
+}
+
+AMateria::~AMateria()
+{
+	std::cout << "Amateria destructor" << std::endl;
+}
+
+AMateria &	AMateria::operator=(AMateria& rhs)
+{
+	this->_type = rhs._type;
+	return *this;
 }
 
 std::string const & AMateria::getType() const

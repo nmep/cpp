@@ -7,9 +7,12 @@
 	{
 		public:
 			Ice( void );
-			Ice( const std::string & type );
+			Ice( const Ice& copy );
 			~Ice();
-			virtual Ice& 
-	}
+			Ice&	operator=( const Ice& rhs );
+			virtual Ice* clone( void ) const;
+
+			virtual void use(ICharacter& target);
+	};
 
 # endif
