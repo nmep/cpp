@@ -12,7 +12,7 @@
 			MateriaSource( void );
 			MateriaSource( MateriaSource& copy );
 			~MateriaSource();
-			void	operator=( MateriaSource& rhs );
+			MateriaSource&	operator=( MateriaSource& rhs );
 
 			void learnMateria( AMateria* learn );
 			AMateria* createMateria( std::string const & type );
