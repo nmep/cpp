@@ -1,7 +1,7 @@
 # ifndef	__MATERIASOURCE_HPP__
 	# define	__MATERIASOURCE_HPP__
 	# include "IMateriaSource.hpp"
-	# include "Amateria.hpp"
+	# include "AMateria.hpp"
 
 	class MateriaSource : public IMateriaSource
 	{

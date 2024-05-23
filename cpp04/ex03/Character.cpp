@@ -7,6 +7,11 @@ Character::Character( void ) : _name("default")
 		this->_inventory[i] = NULL;
 }
 
+Character::Character(const std::string & name) : _name(name)
+{
+	std::cout << "Character assignment constructor called" << std::endl;
+}
+
 Character::Character( Character& copy ) : _name("default")
 {
 	std::cout << "Character copy constructor called" << std::endl;
@@ -29,6 +34,7 @@ Character&	Character::operator=( Character& rhs )
 			this->_inventory[i] = rhs._inventory[i]->clone();
 		}
 	}
+	return *this;
 }
 
 Character::~Character()

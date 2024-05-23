@@ -24,6 +24,7 @@ MateriaSource&	MateriaSource::operator=( MateriaSource& rhs )
 	this->_type = rhs._type;
 	for (int i = 0; i < 4; i++)
 		this->_amateria_source[i] = rhs._amateria_source[i];
+	return *this;
 }
 
 void	MateriaSource::learnMateria( AMateria* learn )
@@ -36,4 +37,28 @@ void	MateriaSource::learnMateria( AMateria* learn )
 			this->_amateria_source[i] = learn->clone();
 	}
 	delete learn;
+}
+
+AMateria*	MateriaSource::createMateria( std::string const & type )
+{
+	// if (this->_amateria_source[0] == NULL)
+	// {
+	// 	std::cout << "no ametria source was learned" << std::endl;
+	// 	return ;
+	// }
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->_amateria_source[i] == NULL || i == 3)
+		{
+			if (i > 0)
+			{
+				if (this->_amateria_source[i - 1]->getType() == type)
+					return this->_amateria_source[i];
+			}
+			if (this->_amateria_source[i]->getType() == type)
+				return this->_amateria_source[i];
+		}
+	}
+	std::cout << "Materia unknow" << std::endl;
+	return 0;
 }

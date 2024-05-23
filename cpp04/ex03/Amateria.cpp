@@ -1,4 +1,4 @@
-# include "Amateria.hpp"
+# include "AMateria.hpp"
 
 AMateria::AMateria( void ) : _type("default")
 {
