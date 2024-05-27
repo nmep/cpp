@@ -1,4 +1,4 @@
-NAME = Bureaucrat
+NAME = Form_up,_maggots!
 
 SRC =	$(shell find . -name "*.cpp")
 

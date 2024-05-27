@@ -1,4 +1,5 @@
 # include "Bureaucrat.hpp"
+# include "Form.hpp"
 
 int	main()
 {
@@ -27,7 +28,7 @@ int	main()
 
 	try
 	{
-		// b1.GradeTooLowException();
+		b1.incrementGrade();
 	}
 	catch ( const std::out_of_range& e)
 	{
@@ -36,7 +37,7 @@ int	main()
 
 	try
 	{
-		// b1.GradeTooHighException();
+		b1.decrementGrade();
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -48,7 +49,7 @@ int	main()
 
 	try
 	{
-		// b1.GradeTooHighException();
+		b1.incrementGrade();
 	}
 	catch(const std::exception& e)
 	{
@@ -57,6 +58,62 @@ int	main()
 
 	std::cout << "<< overload" << std::endl;
 	std::cout << b1;
-	// b1.setGrade();
 
+	Form	*c = new Form();
+
+	std::cout << "\tgrade can't be instantiate" << std::endl;
+	try
+	{
+		c = new Form("formulaire d'impot", 151, 0);
+	}
+	catch (Form::GradeTooHighException& e)
+	{
+		std::cerr << e.what() << std::endl;
+		delete c;
+	}
+	catch (Form::GradeTooLowException& e)
+	{
+		delete c;
+		std::cout << c->getName();
+		// delete c;
+	}
+	Form	form;
+	std::cout << "\tForm is signed" << std::endl;
+	try
+	{
+		form.beSigned(b1);
+	}
+	catch(Form::GradeTooLowException& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	std::cout << "\tForm is already signed" << std::endl;
+	try
+	{
+		form.beSigned(b1);
+	}
+	catch(Form::GradeTooLowException& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	Form	form2("formulaire d'impot", 1, 1);
+	std::cout << "\tFrog grade can signe this form" << std::endl;
+	try
+	{
+		form2.beSigned(b1);
+	}
+	catch (Form::GradeTooLowException& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	b1.setGrade("3");
+	try
+	{
+		form2.beSigned(b1);
+	}
+	catch (Form::GradeTooLowException& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
