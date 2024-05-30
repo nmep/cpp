@@ -125,3 +125,18 @@ void	Bureaucrat::decrementGrade( void )
 		return throw Bureaucrat::GradeTooLowException();
 	this->_grade++;
 }
+
+void	Bureaucrat::executeForm(AForm const & form )
+{
+	try
+	{
+		form.execute(*this);
+	}
+	catch( const AForm::GradeTooHighException& e)
+	{
+		std::cerr << e.what() << '\n';
+		std::cout << this->getName() << " didn't execute " << form.getName() << std::endl;
+		return ;
+	}
+	std::cout << this->getName() << " execute " << form.getName() << std::endl;
+}

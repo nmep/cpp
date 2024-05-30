@@ -5,8 +5,9 @@
 		# include <cstdlib>
 		# include <stdexcept>
 		# include <limits.h>
+		# include "AForm.hpp"
 
-		class Form;
+		class AForm;
 
 		class Bureaucrat
 		{
@@ -40,6 +41,7 @@
 
 				void				incrementGrade( void );
 				void				decrementGrade( void );
+				void				executeForm(AForm const & form);
 		};
 
 	std::ostream& operator<<( std::ostream& out, Bureaucrat& frog );

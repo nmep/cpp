@@ -16,6 +16,8 @@
 			Bureaucrat( void );
 			Bureaucrat( const std::string& name );
 			Bureaucrat( const std::string& name, const std::string& grade);
+			Bureaucrat( Bureaucrat& copy );
+
 			~Bureaucrat();
 
 			const std::string	getName( void ) const;

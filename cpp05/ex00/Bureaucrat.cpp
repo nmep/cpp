@@ -2,7 +2,9 @@
 
 Bureaucrat::Bureaucrat( void ) : _name("Default"), _grade(150) {}
 
-Bureaucrat::Bureaucrat( const std::string & name ) : _name(name), _grade(150) {}  
+Bureaucrat::Bureaucrat( const std::string & name ) : _name(name), _grade(150) {}
+
+Bureaucrat::Bureaucrat( Bureaucrat& copy ) : _name(copy.getName() + "_copy"), _grade(150) {}
 
 Bureaucrat::~Bureaucrat() {}
 
