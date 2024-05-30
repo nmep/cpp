@@ -1,11 +1,16 @@
 NAME = Form_up,_maggots!
 
-SRC =	$(shell find . -name "*.cpp")
+SRC =	./Form.cpp\
+		./Bureaucrat.cpp\
+		./main.cpp\
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header = ./Form.hpp\
+		./Bureaucrat.hpp
+
 
 CC = g++
 

@@ -1,11 +1,21 @@
-NAME = Form_up,_maggots!
+NAME = No,YouNeedForm28B,Not28C
 
-SRC =	$(shell find . -name "*.cpp")
+SRC =	./Bureaucrat.cpp\
+		./AForm.cpp\
+		./main.cpp\
+		./ShrubberyCreationForm.cpp\
+		./RobotomyRequestForm.cpp\
+		./PresedientialPardonForm.cpp
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header = ./Bureaucrat.hpp\
+		./AForm.hpp\
+		./ShrubberyCreationForm.hpp\
+		./RobotomyRequestForm.hpp\
+		./PresidentialPardonForm.hpp
 
 CC = g++
 

@@ -1,11 +1,25 @@
-NAME = Form_up,_maggots!
+NAME = At_least_this_beats_coffee-making
 
-SRC =	$(shell find . -name "*.cpp")
+SRC =	./AForm.cpp\
+		./Bureaucrat.cpp\
+		./main.cpp\
+		./PresedientialPardonForm.cpp\
+		./RobotomyRequestForm.cpp\
+		./ShrubberyCreationForm.cpp\
+		./Intern.cpp
+
+
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = $(shell find . -name "*.hpp")
+header = 	./AForm.hpp\
+			./Bureaucrat.hpp\
+			./PresidentialPardonForm.hpp\
+			./RobotomyRequestForm.hpp\
+			./ShrubberyCreationForm.hpp\
+			./Intern.hpp
+
 
 CC = g++
 

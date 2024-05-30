@@ -1,12 +1,11 @@
 NAME = Bureaucrat
 
-SRC =	./main.cpp\
-		./Bureaucrat.cpp
+SRC =	$(shell find ./ -name "*.cpp")
 
 OBJ = $(SRC:.cpp=.o)
 DEP_FILES = $(OBJ:.o=.d)
 
-header = ./Bureaucrat.hpp
+header = $(shell find ./ -name "*.hpp")
 
 CC = g++
 
