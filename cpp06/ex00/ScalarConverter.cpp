@@ -80,6 +80,8 @@ int	ft_isC( const std::string& str , int *type)
 			throw NonDisplayable();
 			return 0;
 		}
+		if (!isalpha(str[i]))
+			return 0;
 	}
 	*type = CHAR;
 	return 1;
@@ -159,9 +161,9 @@ int ft_is_float( const std::string str, int *type, bool *impossible)
 		*impossible = true;
 		return 1;
 	}
-	// if (str.back() != 'f')
-	// 	return 0;
-	// std::cout << "dernier charactere = " << bakcstr << std::endl;
+	if (str[str.size() - 1] != 'f')
+		return 0;
+	std::cout << "dernier charactere = " << str[str.size() - 1] << std::endl;
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	int	count = std::count(str.begin(), str.end(), '.');
