@@ -14,7 +14,7 @@ ScalarConverter& ScalarConverter::operator=( ScalarConverter& rhs )
 	(void)rhs;
 	return *this;
 }
-
+// qwerqwerweq
 int		ft_stoi( const std::string& str )
 {
 	std::stringstream ss( str );
