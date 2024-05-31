@@ -9,16 +9,16 @@ header = $(shell find ./ -name "*.hpp")
 
 CC = g++
 
-OBJDIR=./obj/
+OBJDIR= ./obj/
 
-flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3 #-ftrapv
+flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP #-g3 -ftrapv
 
 $(shell mkdir -p obj dep)
 
 all: $(NAME)
 
 ./obj/%.o: %.cpp
-	$(CC) $(flags) -c $< -o obj/$(<:.cpp=.o)
+	$(CC) $(flags) -c $< -o $@ -MF dep/$(<:.cpp=.d) -MT $@
 
 $(NAME): $(OBJ)
 	$(CC) $(flags) $(OBJ) -o $@
@@ -42,3 +42,5 @@ test:
 	@echo dep $(DEP_FILES)
 
 -include $(DEP_FILES)
+
+.PHONY: all clean fclean re

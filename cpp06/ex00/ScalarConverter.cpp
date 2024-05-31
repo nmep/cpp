@@ -153,13 +153,15 @@ int ft_is_float( const std::string str, int *type, bool *impossible)
 {
 	unsigned int	i = 0;
 
+	// const char bakcstr = str.back();
 	if (ft_is_nan(str) || ft_is_inf(str))
 	{
 		*impossible = true;
 		return 1;
 	}
-	if ((str.rbegin())[0] != 'f')
-		return 0;
+	// if (str.back() != 'f')
+	// 	return 0;
+	// std::cout << "dernier charactere = " << bakcstr << std::endl;
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	int	count = std::count(str.begin(), str.end(), '.');
