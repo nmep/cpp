@@ -62,14 +62,14 @@ int	ft_isC( const std::string& str )
 {
 	if (!ft_is_nan( str ))
 	{
-		throw ScalarConverter::ImpossibleException();
+		throw ImpossibleException();
 		return 0;
 	}
 	for (int i = 0; i < static_cast<int>(str.length()) && isalpha(str[i]); i++)
 	{
 		if (!isprint(str[i]))
 		{
-			throw	ScalarConverter::NonDisplayable();
+			throw NonDisplayable();
 			return 0;
 		}
 	}
@@ -82,24 +82,28 @@ void	getType( const std::string& str )
 	{
 		ft_isC( str );
 	}
-	catch(const ScalarConverter::NonDisplayable& e)
+	catch(const NonDisplayable& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	catch( const ScalarConverter::ImpossibleException& e)
+	catch( const ImpossibleException& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
 	
 }
 
-const char* ScalarConverter::ImpossibleException::what( void ) const throw()
+const char* ImpossibleException::what( void ) const throw()
 {
 	return "Impossible";
 }
-
-const char*	ScalarConverter::NonDisplayable::what( void ) const throw()
+ 
+const char*	NonDisplayable::what( void ) const throw()
 {
 	return "Non Displayable";
 }
 
+const char *	NoType::what() const throw()
+{
+	return "Not a type";
+}

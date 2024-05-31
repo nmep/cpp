@@ -12,12 +12,11 @@ int main( int ac, char **av )
 
 	ss >> n;
 
-	if (ss.fail() || ss.eof())
+	if (ss.fail())
 	{
 		std::cerr << "problem" << std::endl;
 		return 1;
 	}
 	std::cout << n;
-	getType( av[1] );
-	
+	getType( av[1] ); 
 }
