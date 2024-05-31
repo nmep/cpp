@@ -4,8 +4,13 @@
 	# include <iostream>
 	# include <string>
 	# include <sstream>
-	# include "ScalarConverter.hpp"
+	# include "Exception.hpp"
+	# include <bits/stdc++.h>
 
+	# define CHAR 1
+	# define INT 2
+	# define FLOAT 3
+	# define DOUBLE 4
 	class ScalarConverter
 	{
 		public:
@@ -13,41 +18,8 @@
 			virtual ~ScalarConverter();
 			// ScalarConverter( const ScalarConverter& copy );
 			ScalarConverter& operator=( ScalarConverter& rhs );
-
-			// class ImpossibleException : public std::exception
-			// {
-			// 	public:
-			// 		virtual const char *what(void) const throw();
-			// };
-			// class NonDisplayable : public std::exception
-			// {
-			// 	public:
-			// 		virtual const char *what(void) const throw();
-			// };
-			// class NoType : public std::exception
-			// {
-			// 	public:
-			// 		virtual const char *what(void) const throw();
-			// };
-
 	};
 
-	class ImpossibleException : public std::exception
-	{
-		public:
-			virtual const char *what(void) const throw();
-	};
-	class NonDisplayable : public std::exception
-	{
-		public:
-			virtual const char *what(void) const throw();
-	};
-	class NoType : public std::exception
-	{
-		public:
-			virtual const char *what(void) const throw();
-	};
-
-void	getType( const std::string& str );
+int	getType( const std::string& str , int *type, bool *Impossible, bool *nonDisplay);
 
 # endif

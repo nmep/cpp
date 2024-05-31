@@ -1,26 +1,31 @@
-NAME = Bureaucrat
+NAME = Convert
 
-SRC =	$(shell find ./ -name "*.cpp")
+SRC = $(notdir $(shell find ./ -name "*.cpp"))
 
-OBJ = $(SRC:.cpp=.o)
-DEP_FILES = $(OBJ:.o=.d)
+OBJ = $(addprefix obj/, $(notdir $(SRC:.cpp=.o)))
+DEP_FILES = $(addprefix dep/, $(notdir $(OBJ:.o=.d)))
 
 header = $(shell find ./ -name "*.hpp")
 
 CC = g++
 
+OBJDIR=./obj/
+
 flags = -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3 #-ftrapv
+
+$(shell mkdir -p obj dep)
 
 all: $(NAME)
 
-%.o: %.cpp
-	$(CC) $(flags) -c $< -o $(<:.cpp=.o)
+./obj/%.o: %.cpp
+	$(CC) $(flags) -c $< -o obj/$(<:.cpp=.o)
 
 $(NAME): $(OBJ)
 	$(CC) $(flags) $(OBJ) -o $@
 
 clean:
 	rm -f $(OBJ) $(DEP_FILES)
+	rm -rf dep obj
 
 fclean: clean
 	rm -f $(NAME)
@@ -28,7 +33,12 @@ fclean: clean
 re: fclean all
 
 test: 
-	echo src $(SRC)
-	echo obj$(OBJ)
+	@echo src $(SRC)
+	@echo
+	@echo
+	@echo obj $(OBJ)
+	@echo
+	@echo
+	@echo dep $(DEP_FILES)
 
 -include $(DEP_FILES)
