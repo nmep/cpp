@@ -11,6 +11,8 @@
 	# define INT 2
 	# define FLOAT 3
 	# define DOUBLE 4
+	# define NotANumber 5
+	# define INF 6
 	class ScalarConverter
 	{
 		public:

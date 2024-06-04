@@ -28,11 +28,10 @@ int		ft_stoi( const std::string& str )
 	return n;
 }
 
-int	ft_is_nan( const std::string& str )
+int	ft_is_NotANumber( const std::string& str )
 {
 	if (str == "nan" || str == "nanf" || str == "nanl"
-		|| str == "nand32" || str == "nand64" || str == "nand128"
-		|| str == "inf" || str == "-inf" || str == "+inf")
+		|| str == "nand32" || str == "nand64" || str == "nand128")
 		return 1;
 	return 0;
 }
@@ -66,18 +65,13 @@ double	ft_stod( const std::string& str )
 	return d;
 }
 
-int	ft_isC( const std::string& str , int *type)
+int	ft_is_C( const std::string& str , int *type, bool *nonDisplay)
 {
-	if (ft_is_nan( str ))
-	{
-		throw ImpossibleException();
-		return 0;
-	}
-	for (int i = 0; i < static_cast<int>(str.length()) && isalpha(str[i]); i++)
+	for (int i = 0; i < static_cast<int>(str.length()); i++)
 	{
 		if (!isprint(str[i]))
 		{
-			throw NonDisplayable();
+			*nonDisplay = true;
 			return 0;
 		}
 		if (!isalpha(str[i]))
@@ -87,36 +81,15 @@ int	ft_isC( const std::string& str , int *type)
 	return 1;
 }
 
-int	ft_get_C( const std::string& str , int *type, bool *impossible, bool *nonDisplay)
-{
-	try
-	{
-		ft_isC( str , type);
-	}
-	catch(const NonDisplayable& e)
-	{
-		std::cerr << e.what() << '\n';
-		*nonDisplay = true;
-	}
-	catch( const ImpossibleException& e)
-	{
-		std::cerr << e.what() << '\n';
-		*impossible = true;
-		return 1;
-	}
-	*type = CHAR;
-	return 1;
-}
-
-int	ft_is_INT( const std::string& str, int *type, bool *impossible)
+int	ft_is_INT( const std::string& str, int *type)
 {
 	unsigned int i = 0;
 
-	if (ft_is_nan(str) || ft_is_inf(str))
-	{
-		*impossible = true;
-		return 1;
-	}
+	// if (ft_is_NotANumber(str) || ft_is_inf(str))
+	// {
+	// 	*impossible = true;
+	// 	return 1;
+	// }
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	for (/*nope*/; i < str.length(); i++)
@@ -128,17 +101,17 @@ int	ft_is_INT( const std::string& str, int *type, bool *impossible)
 	return 1;
 }
 
-int	ft_is_double( const std::string& str, int *type, bool *impossible)
+int	ft_is_double( const std::string& str, int *type)
 {
 	unsigned int	i = 0;
 
 	if (str[0] == '-' || str[0] == '+')
 		i++;
-	if (ft_is_nan(str) || ft_is_inf(str))
-	{
-		*impossible = true;
-		return 1;
-	}
+	// if (ft_is_NotANumber(str) || ft_is_inf(str))
+	// {
+	// 	*impossible = true;
+	// 	return 1;
+	// }
 	int	count = std::count(str.begin(), str.end(), '.');
 	if (count == 0 || count > 1)
 		return 0;
@@ -151,19 +124,17 @@ int	ft_is_double( const std::string& str, int *type, bool *impossible)
 	return 1;
 }
 
-int ft_is_float( const std::string str, int *type, bool *impossible)
+int ft_is_float( const std::string str, int *type)
 {
 	unsigned int	i = 0;
 
-	// const char bakcstr = str.back();
-	if (ft_is_nan(str) || ft_is_inf(str))
-	{
-		*impossible = true;
-		return 1;
-	}
+	// if (ft_is_NotANumber(str) || ft_is_inf(str))
+	// {
+	// 	*impossible = true;
+	// 	return 1;
+	// }
 	if (str[str.size() - 1] != 'f')
 		return 0;
-	std::cout << "dernier charactere = " << str[str.size() - 1] << std::endl;
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	int	count = std::count(str.begin(), str.end(), '.');
@@ -174,7 +145,7 @@ int ft_is_float( const std::string str, int *type, bool *impossible)
 		return 0;
 	for (/* nope */; i < str.size(); i++)
 	{
-		if (!isdigit(str[i] && (str[i] != '.' || str[i] != 'f')))
+		if (!isdigit(str[i]) && (str[i] != '.' && str[i] != 'f'))
 			return 0;
 	}
 	*type = FLOAT;
@@ -185,13 +156,26 @@ int	getType( const std::string& str , int *type, bool *impossible, bool *nonDisp
 {
 	int	check_arg = 0;
 
-	check_arg += ft_get_C(str, type, impossible, nonDisplay);
-	
-	check_arg += ft_is_INT(str, type, impossible);
+	if (ft_is_NotANumber( str ))
+	{
+		*impossible = 1;
+		*type = NotANumber;
+		return 1;
+	}
+	if (ft_is_inf( str ))
+	{
+		*impossible = true;
+		*type = INF;
+		return 1;
+	}
 
-	check_arg += ft_is_double(str, type, impossible);
+	check_arg += ft_is_C(str, type, nonDisplay);
+
+	check_arg += ft_is_INT(str, type);
+
+	check_arg += ft_is_double(str, type);
 	
-	check_arg += ft_is_float(str, type, impossible);
+	check_arg += ft_is_float(str, type);
 
 	if (check_arg == 0 && impossible)
 		return 0;

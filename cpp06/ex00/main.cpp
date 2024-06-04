@@ -22,6 +22,8 @@ int main( int ac, char **av )
 		std::cerr << "invalid arguments" << std::endl;
 		return 2;
 	}
+	if (type == NotANumber || type == INF)
+		std::cout << "inf ou NotANumber" << std::endl;
 	std::cout << "type = " << type << std::endl;
 	// verfier si get type = 0 si gettype est a 0 et que
 	// les booleans sont a false c'est qu'il y a un invalid
