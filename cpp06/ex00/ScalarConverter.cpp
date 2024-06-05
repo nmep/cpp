@@ -203,12 +203,12 @@ void	ScalarConverter::ft_print_C( const std::string& arg )
 	std::cout << "char: ";
 	if (this->nonDisplay)
 	{
-		std::cout << "impossible" << std::endl;
+		std::cout << "Non displayable" << std::endl;
 		return ;
 	}
 	if (this->impossible)
 	{
-		std::cout << arg << std::endl;
+		std::cout << "impossible" << std::endl;
 		return ;
 	}
 	try
