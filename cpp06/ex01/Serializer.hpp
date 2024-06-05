@@ -18,8 +18,11 @@
 
 			Serializer&	operator=( Serializer *rhs );
 
+			int	GetDataValue( void ) const;
 			uintptr_t serialize(Data* ptr);
 			Data* deserialize(uintptr_t raw);
 	};
+
+std::ostream&	operator<<( std::ostream o, Serializer& rhs );
 
 # endif

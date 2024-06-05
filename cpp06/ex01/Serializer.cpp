@@ -27,5 +27,21 @@ Serializer& Serializer::operator=( Serializer *rhs )
 
 uintptr_t Serializer::serialize(Data *ptr)
 {
-	// to do
+	return (reinterpret_cast<uintptr_t>(ptr));
+}
+
+Data* Serializer::deserialize(uintptr_t raw)
+{
+	return (reinterpret_cast<Data *>(raw));
+}
+
+
+int	Serializer::GetDataValue( void ) const
+{
+	return this->_data->value;
+}
+
+std::ostream&	operator<<( std::ostream o, Serializer& rhs )
+{
+	return o << "value = " << rhs.GetDataValue() << std::endl;
 }
