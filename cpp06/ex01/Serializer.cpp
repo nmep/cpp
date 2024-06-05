@@ -2,25 +2,34 @@
 
 Serializer::Serializer( void )
 {
-	this->_data->value = 0;
-	this->_res = 0;
+	this->_data = new Data;
+	this->_data->value = 1;
+	this->_res = 1;
 }
 
 Serializer::Serializer( Data *ptr )
 {
+	this->_data = new Data;
 	this->_data->value = ptr->value;
 	this->_res = 0;
 }
 
 Serializer::Serializer( Serializer& copy )
 {
+	this->_data = new Data;
 	*this = copy;
+	delete copy._data;
 }
 
-Serializer::~Serializer() {}
-
-Serializer& Serializer::operator=( Serializer *rhs )
+Serializer::~Serializer()
 {
+	delete this->_data;
+}
+
+Serializer& Serializer::operator=( Serializer& rhs )
+{
+	if (this == &rhs)
+		return *this;
 	*this = rhs;
 	return *this;
 }

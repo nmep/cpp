@@ -7,6 +7,12 @@ ScalarConverter::ScalarConverter( void )
 	this->impossible = false;
 }
 
+// ScalarConverter::ScalarConverter( const std::string& arg ) 
+// {
+// 	this->nonDisplay = false;
+// 	this->impossible = false;
+// }
+
 // ScalarConverter::ScalarConverter( const ScalarConverter& copy )
 // {
 // 	*this = copy;
@@ -220,7 +226,7 @@ void	ScalarConverter::ft_print_C( const std::string& arg )
 		std::cout << e.what() << '\n';
 		return ;
 	}
-	std::cout << static_cast<char>(c) << std::endl;
+	std::cout << '\'' << static_cast<char>(c) << '\'' << std::endl;
 }
 
 void	ScalarConverter::ft_print_INT( const std::string& arg)

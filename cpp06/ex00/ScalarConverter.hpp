@@ -19,6 +19,7 @@
 			bool impossible;
 			bool nonDisplay;
 			int	type;
+			ScalarConverter( const std::string& arg );
 
 		public:
 			int	getType( const std::string& str);
@@ -26,7 +27,7 @@
 			int	ft_is_double( const std::string& str);
 			int	ft_is_INT( const std::string& str );
 			int	ft_is_C(const std::string& str);
-			
+
 			void	ft_print_C( const std::string& arg );
 			void	ft_print_INT( const std::string& arg);
 			void	ft_print_Float( const std::string& arg);

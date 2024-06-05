@@ -1,4 +1,4 @@
-NAME = Convert
+NAME = Serialize
 
 SRC = $(notdir $(shell find ./ -name "*.cpp"))
 

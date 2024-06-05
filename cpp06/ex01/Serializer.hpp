@@ -16,7 +16,7 @@
 			Serializer( Serializer& copy );
 			~Serializer();
 
-			Serializer&	operator=( Serializer *rhs );
+			Serializer&	operator=( Serializer& rhs );
 
 			int	GetDataValue( void ) const;
 			uintptr_t serialize(Data* ptr);
