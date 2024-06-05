@@ -90,8 +90,15 @@ int	ft_is_inf( const std::string& str )
 
 int	ScalarConverter::ft_is_C( const std::string& str )
 {
-	int res = ft_stoi(str);
-
+	int res;
+	try
+	{
+		res = ft_stoi(str);
+	}
+	catch(std::exception& e)
+	{
+		return 0;
+	}
 	if (!isprint(static_cast<char>(res)))
 	{
 		this->nonDisplay = true;

@@ -6,7 +6,7 @@ int main( int ac, char **av )
 
 	if (ac != 2 || av[1][0] == '\0')
 	{
-		std::cerr << "Wrong arg number" << std::endl;
+		std::cerr << "Usage: ./Convert <argument>" << std::endl;
 		return (2);
 	}
 
@@ -14,7 +14,7 @@ int main( int ac, char **av )
 
 	if (!convert.getType( str ))
 	{
-		std::cerr << "invalid arguments" << std::endl;
+		std::cerr << "invalid argument" << std::endl;
 		return 2;
 	}
 	convert.convert(str);
