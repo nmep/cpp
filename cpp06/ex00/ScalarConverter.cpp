@@ -20,19 +20,19 @@ ScalarConverter& ScalarConverter::operator=( ScalarConverter& rhs )
 	return *this;
 }
 // qwerqwerweq
-char		ft_stoc( const std::string& str )
-{
-	std::stringstream ss( str );
-	char	c;
+// char		ft_stoc( const std::string& str )
+// {
+// 	std::stringstream ss( str );
+// 	char c;
 
-	ss >> c;
-	if (ss.fail())
-	{
-		throw std::out_of_range("OverFlow");
-		return c;
-	}
-	return c;
-}
+// 	ss >> c;
+// 	if (ss.fail())
+// 	{
+// 		throw std::out_of_range("OverFlow");
+// 		return c;
+// 	}
+// 	return c;
+// }
 
 int		ft_stoi( const std::string& str )
 {
@@ -88,19 +88,17 @@ int	ft_is_inf( const std::string& str )
 	return 0;
 }
 
-
 int	ScalarConverter::ft_is_C( const std::string& str )
 {
-	for (int i = 0; i < static_cast<int>(str.length()); i++)
+	int res = ft_stoi(str);
+
+	if (!isprint(static_cast<char>(res)))
 	{
-		if (!isprint(str[i]))
-		{
-			this->nonDisplay = true;
-			return 0;
-		}
-		if (!isalpha(str[i]))
-			return 0;
+		this->nonDisplay = true;
+		return 0;
 	}
+	if (!isalpha(static_cast<char>(res)))
+		return 0;
 	this->type = CHAR;
 	return 1;
 }
@@ -196,24 +194,23 @@ void	ScalarConverter::ft_print_C( const std::string& arg )
 	int	c;
 
 	std::cout << "char: ";
-	try
+	if (this->nonDisplay)
 	{
-		c = ft_stoc(arg);
-	}
-	catch ( std::out_of_range& e)
-	{
-		std::cout << e.what() << '\n';
+		std::cout << "impossible" << std::endl;
 		return ;
 	}
-
 	if (this->impossible)
 	{
 		std::cout << arg << std::endl;
 		return ;
 	}
-	else if (this->nonDisplay)
+	try
 	{
-		std::cout << "impossible" << std::endl;
+		c = ft_stoi(arg);
+	}
+	catch ( std::out_of_range& e)
+	{
+		std::cout << e.what() << '\n';
 		return ;
 	}
 	std::cout << static_cast<char>(c) << std::endl;
@@ -224,6 +221,11 @@ void	ScalarConverter::ft_print_INT( const std::string& arg)
 	int	n;
 
 	std::cout << "int: ";
+	if (this->impossible)
+	{
+		std::cout << arg << std::endl;
+		return ;
+	}
 	try
 	{
 		n = ft_stoi(arg);
@@ -231,11 +233,6 @@ void	ScalarConverter::ft_print_INT( const std::string& arg)
 	catch (std::out_of_range& e)
 	{
 		std::cout << e.what() << '\n';
-		return ;
-	}
-	if (this->impossible)
-	{
-		std::cout << arg << std::endl;
 		return ;
 	}
 	std::cout << static_cast<int>(n) << std::endl;
@@ -246,6 +243,11 @@ void	ScalarConverter::ft_print_Float( const std::string& arg)
 	float	f;
 
 	std::cout << "float: ";
+	if (this->impossible)
+	{
+		std::cout << arg << std::endl;
+		return ;
+	}
 	try
 	{
 		f = ft_stof(arg);
@@ -253,11 +255,6 @@ void	ScalarConverter::ft_print_Float( const std::string& arg)
 	catch (std::out_of_range& e)
 	{
 		std::cout << e.what() << '\n';
-		return ;
-	}
-	if (this->impossible)
-	{
-		std::cout << arg << std::endl;
 		return ;
 	}
 	std::cout << std::fixed << std::setprecision(2) << static_cast<float>(f) << "f" << std::endl;
@@ -268,6 +265,11 @@ void	ScalarConverter::ft_print_double( const std::string& arg)
 	double		f;
 
 	std::cout << "double: ";
+	if (this->impossible)
+	{
+		std::cout << arg << std::endl;
+		return ;
+	}
 	try
 	{
 		f = ft_stod(arg);
@@ -277,12 +279,7 @@ void	ScalarConverter::ft_print_double( const std::string& arg)
 		std::cout << e.what() << '\n';
 		return ;
 	}
-	if (this->impossible)
-	{
-		std::cout << arg << std::endl;
-		return ;
-	}
-	std::cout << static_cast<double>(f) << std::endl;
+	std::cout <<  std::fixed << std::setprecision(2) << static_cast<double>(f) << std::endl;
 }
 
 void	ScalarConverter::convert(const std::string &arg)
