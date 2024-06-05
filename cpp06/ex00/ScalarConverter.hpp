@@ -15,11 +15,22 @@
 	# define INF 6
 	class ScalarConverter
 	{
+		private:
+			bool impossible;
+			bool nonDisplay;
+			int	type;
 		public:
+		int	getType( const std::string& str);
+		int ft_is_float( const std::string str );
+		int	ft_is_double( const std::string& str);
+		int	ft_is_INT( const std::string& str );
+		int	ft_is_C(const std::string& str);
+
 			ScalarConverter( void );
 			virtual ~ScalarConverter();
 			// ScalarConverter( const ScalarConverter& copy );
 			ScalarConverter& operator=( ScalarConverter& rhs );
+			void convert( const std::string &arg );
 	};
 
 int	getType( const std::string& str , int *type, bool *Impossible, bool *nonDisplay);

@@ -65,31 +65,26 @@ double	ft_stod( const std::string& str )
 	return d;
 }
 
-int	ft_is_C( const std::string& str , int *type, bool *nonDisplay)
+int	ScalarConverter::ft_is_C( const std::string& str )
 {
 	for (int i = 0; i < static_cast<int>(str.length()); i++)
 	{
 		if (!isprint(str[i]))
 		{
-			*nonDisplay = true;
+			this->nonDisplay = true;
 			return 0;
 		}
 		if (!isalpha(str[i]))
 			return 0;
 	}
-	*type = CHAR;
+	this->type = CHAR;
 	return 1;
 }
 
-int	ft_is_INT( const std::string& str, int *type)
+int	ScalarConverter::ft_is_INT( const std::string& str)
 {
 	unsigned int i = 0;
 
-	// if (ft_is_NotANumber(str) || ft_is_inf(str))
-	// {
-	// 	*impossible = true;
-	// 	return 1;
-	// }
 	if (str[0] == '-' || str[0] == '+')
 		i++;
 	for (/*nope*/; i < str.length(); i++)
@@ -97,21 +92,16 @@ int	ft_is_INT( const std::string& str, int *type)
 		if (!isdigit(str[i]))
 			return 0;
 	}
-	*type = INT;
+	this->type = INT;
 	return 1;
 }
 
-int	ft_is_double( const std::string& str, int *type)
+int	ScalarConverter::ft_is_double( const std::string& str)
 {
 	unsigned int	i = 0;
 
 	if (str[0] == '-' || str[0] == '+')
 		i++;
-	// if (ft_is_NotANumber(str) || ft_is_inf(str))
-	// {
-	// 	*impossible = true;
-	// 	return 1;
-	// }
 	int	count = std::count(str.begin(), str.end(), '.');
 	if (count == 0 || count > 1)
 		return 0;
@@ -120,19 +110,14 @@ int	ft_is_double( const std::string& str, int *type)
 		if (!isdigit(str[i]) && str[i] != '.')
 			return 0;
 	}
-	*type = DOUBLE;
+	type = DOUBLE;
 	return 1;
 }
 
-int ft_is_float( const std::string str, int *type)
+int ScalarConverter::ft_is_float( const std::string str)
 {
 	unsigned int	i = 0;
 
-	// if (ft_is_NotANumber(str) || ft_is_inf(str))
-	// {
-	// 	*impossible = true;
-	// 	return 1;
-	// }
 	if (str[str.size() - 1] != 'f')
 		return 0;
 	if (str[0] == '-' || str[0] == '+')
@@ -148,36 +133,55 @@ int ft_is_float( const std::string str, int *type)
 		if (!isdigit(str[i]) && (str[i] != '.' && str[i] != 'f'))
 			return 0;
 	}
-	*type = FLOAT;
+	this->type = FLOAT;
 	return 1;
 }
 
-int	getType( const std::string& str , int *type, bool *impossible, bool *nonDisplay)
+int	ScalarConverter::getType( const std::string& str )
 {
 	int	check_arg = 0;
 
 	if (ft_is_NotANumber( str ))
 	{
-		*impossible = 1;
-		*type = NotANumber;
+		 this->impossible = 1;
+		this->type = NotANumber;
 		return 1;
 	}
 	if (ft_is_inf( str ))
 	{
-		*impossible = true;
-		*type = INF;
+		 this->impossible = true;
+		this->type = INF;
 		return 1;
 	}
 
-	check_arg += ft_is_C(str, type, nonDisplay);
+	check_arg += ft_is_C(str);
 
-	check_arg += ft_is_INT(str, type);
+	check_arg += ft_is_INT(str);
 
-	check_arg += ft_is_double(str, type);
+	check_arg += ft_is_float(str);
+
+	check_arg += ft_is_double(str);
 	
-	check_arg += ft_is_float(str, type);
-
-	if (check_arg == 0 && impossible)
+	if (check_arg == 0)
 		return 0;
 	return 1;
+}
+
+void	ft_print_C( std::stringstream& arg )
+{
+	int	c;
+
+	arg >> c;
+
+	std::cout << "char: " << static_cast<char>(c) << std::endl;
+}
+
+void	ScalarConverter::convert(const std::string &arg)
+{
+	std::stringstream ss(arg);
+	switch (this->type)
+	{
+		case CHAR:
+			ft_print_C(ss);
+	}
 }
