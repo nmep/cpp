@@ -1,4 +1,4 @@
-NAME = Serialize
+NAME = Identify_real_type
 
 SRC = $(notdir $(shell find ./ -name "*.cpp"))
 
