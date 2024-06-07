@@ -1,5 +1,4 @@
 # include "ScalarConverter.hpp"
-# include "Exception.hpp"
 
 ScalarConverter::ScalarConverter( void )
 {
@@ -25,33 +24,47 @@ ScalarConverter& ScalarConverter::operator=( ScalarConverter& rhs )
 	(void)rhs;
 	return *this;
 }
-// qwerqwerweq
-// char		ft_stoc( const std::string& str )
-// {
-// 	std::stringstream ss( str );
-// 	char c;
 
-// 	ss >> c;
-// 	if (ss.fail())
-// 	{
-// 		throw std::out_of_range("OverFlow");
-// 		return c;
-// 	}
-// 	return c;
-// }
-
-int		ft_stoi( const std::string& str )
+char		ft_stoc( const std::string& str )
 {
 	std::stringstream ss( str );
-	int	n;
+	char c;
 
-	ss >> n;
+	ss >> c;
 	if (ss.fail())
 	{
 		throw std::out_of_range("OverFlow");
-		return n;
+		return c;
 	}
-	return n;
+	return c;
+}
+
+int	ft_atoi(const std::string& str)
+{
+	int	i = 0;
+	int s = 1;
+	int res = 0;
+
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	while (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			s *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if ((res > INT_MAX / 10 || (res == INT_MAX / 10 && (str[i] - 48) > INT_MAX % 10))
+			|| (res < INT_MIN / 10 || (res == INT_MIN && (str[i] - 48) > INT_MIN % 10)))
+		{
+			throw std::out_of_range("qwer");
+			return 0;
+		}
+		res = res * 10 + (str[i] - 48);
+		i++;
+	}
+	return res * s;
 }
 
 float	ft_stof( const std::string& str )
@@ -96,21 +109,14 @@ int	ft_is_inf( const std::string& str )
 
 int	ScalarConverter::ft_is_C( const std::string& str )
 {
-	int res;
-	try
-	{
-		res = ft_stoi(str);
-	}
-	catch(std::exception& e)
-	{
+	if (str.size() > 1)
 		return 0;
-	}
-	if (!isprint(static_cast<char>(res)))
+	if (!isprint(static_cast<char>(str[0])))
 	{
 		this->nonDisplay = true;
 		return 0;
 	}
-	if (!isalpha(static_cast<char>(res)))
+	if (!isalpha(static_cast<char>(str[0])))
 		return 0;
 	this->type = CHAR;
 	return 1;
@@ -202,31 +208,49 @@ int	ScalarConverter::getType( const std::string& str )
 	return 1;
 }
 
-void	ScalarConverter::ft_print_C( const std::string& arg )
+void ScalarConverter::ft_print_C(const std::string& arg)
 {
-	int	c;
+	 std::cout << "char: ";
 
-	std::cout << "char: ";
-	if (this->nonDisplay)
-	{
-		std::cout << "Non displayable" << std::endl;
-		return ;
-	}
-	if (this->impossible)
-	{
+	 if (arg.size() == 1 && !isdigit(arg[0]))
+	 {
+		char c = arg[0];
+		if (!isprint(static_cast<unsigned char>(c)))
+		{
+			std::cout << "Non displayable" << std::endl;
+			return;
+		}
+		std::cout << '\'' << c << '\'' << std::endl;
+		return;
+	 }
+	 std::stringstream ss(arg);
+	 int c;
+	 ss >> c;
+	 if (ss.fail() || !ss.eof())
+	 {
 		std::cout << "impossible" << std::endl;
-		return ;
-	}
-	try
+		return;
+	 }
+	 if (c < 0 || c > 127 || !isprint(static_cast<unsigned char>(c)))
+	 {
+		std::cout << "Non displayable" << std::endl;
+		return;
+	 }
+	 std::cout << '\'' << static_cast<char>(c) << '\'' << std::endl;
+}
+
+int		ft_stoi( const std::string& str )
+{
+	std::stringstream ss( str );
+	int	n;
+
+	ss >> n;
+	if (ss.fail())
 	{
-		c = ft_stoi(arg);
+		throw std::out_of_range("OverFlow");
+		return n;
 	}
-	catch ( std::out_of_range& e)
-	{
-		std::cout << e.what() << '\n';
-		return ;
-	}
-	std::cout << '\'' << static_cast<char>(c) << '\'' << std::endl;
+	return n;
 }
 
 void	ScalarConverter::ft_print_INT( const std::string& arg)
@@ -234,9 +258,20 @@ void	ScalarConverter::ft_print_INT( const std::string& arg)
 	int	n;
 
 	std::cout << "int: ";
-	if (this->impossible)
+	if (ft_is_NotANumber( arg ))
 	{
-		std::cout << arg << std::endl;
+		std::cout << "nan" << std::endl;
+		return ;
+	}
+	if (ft_is_inf( arg ))
+	{
+		std::cout << "inf" << std::endl;
+		return ;
+	}
+	if (arg.size() == 1)
+	{
+		int ascii_value = static_cast<int>(arg[0]);
+		std::cout << ascii_value << std::endl;
 		return ;
 	}
 	try
@@ -254,16 +289,29 @@ void	ScalarConverter::ft_print_INT( const std::string& arg)
 void	ScalarConverter::ft_print_Float( const std::string& arg)
 {
 	float	f;
+	char *	pEnd;
 
 	std::cout << "float: ";
-	if (this->impossible)
+	if (ft_is_inf(arg))
 	{
-		std::cout << arg << std::endl;
+		std::cout << "inff" << std::endl;
+		return ;
+	}
+	if (ft_is_NotANumber(arg))
+	{
+		std::cout << "nanf" << std::endl;
+		return ;
+	}
+	if (arg.size() == 1)
+	{
+		float ascii_value = static_cast<float>(arg[0]);
+		std::cout  << std::fixed << std::setprecision(2) << ascii_value << 'f' << std::endl;
 		return ;
 	}
 	try
 	{
-		f = ft_stof(arg);
+		f = strtof(arg.c_str(), &pEnd);
+		// f = static_cast<float>(arg);
 	}
 	catch (std::out_of_range& e)
 	{
@@ -276,55 +324,40 @@ void	ScalarConverter::ft_print_Float( const std::string& arg)
 void	ScalarConverter::ft_print_double( const std::string& arg)
 {
 	double		f;
-
+	char		*pEnd;
 	std::cout << "double: ";
-	if (this->impossible)
+	if (ft_is_inf(arg))
 	{
-		std::cout << arg << std::endl;
+		std::cout << "inf" << std::endl;
+		return ;
+	}
+	if (ft_is_NotANumber(arg))
+	{
+		std::cout << "nan" << std::endl;
+		return ;
+	}
+	if (arg.size() == 1)
+	{
+		double ascii_value = static_cast<double>(arg[0]);
+		std::cout  << std::fixed << std::setprecision(2) << ascii_value << std::endl;
 		return ;
 	}
 	try
 	{
-		f = ft_stod(arg);
+		f = strtod(arg.c_str(), &pEnd);
 	}
 	catch (std::out_of_range& e)
 	{
 		std::cout << e.what() << '\n';
 		return ;
 	}
-	std::cout <<  std::fixed << std::setprecision(2) << static_cast<double>(f) << std::endl;
+	std::cout <<	std::fixed << std::setprecision(2) << static_cast<double>(f) << std::endl;
 }
 
 void	ScalarConverter::convert(const std::string &arg)
 {
-	void	(ScalarConverter::*print_tab_ptr[4])( const std::string& arg) = {
-		&ScalarConverter::ft_print_C,
-		&ScalarConverter::ft_print_INT,
-		&ScalarConverter::ft_print_double,
-		&ScalarConverter::ft_print_Float,
-		};
-	// std::stringstream ss(arg);
-	switch (this->type)
-	{
-		case CHAR:
-			ft_print_C(arg);
-			break;
-		case INT:
-			ft_print_INT(arg);
-			break ;
-		case FLOAT:
-			ft_print_Float(arg);
-			break;
-		case DOUBLE:
-			ft_print_double(arg);
-			break;
-		default:
-			break;
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		if (i + 1 == this->type)
-			continue;
-		(this->*print_tab_ptr[i])(arg);
-	}
+	ft_print_C(arg);
+	ft_print_INT(arg);
+	ft_print_Float(arg);
+	ft_print_double(arg);
 }

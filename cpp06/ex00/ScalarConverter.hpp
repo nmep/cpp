@@ -4,8 +4,9 @@
 	# include <iostream>
 	# include <string>
 	# include <sstream>
-	# include "Exception.hpp"
+	# include <stdexcept>
 	# include <bits/stdc++.h>
+	# include <stdlib.h>
 
 	# define CHAR 1
 	# define INT 2
@@ -13,6 +14,7 @@
 	# define DOUBLE 4
 	# define NotANumber 5
 	# define INF 6
+
 	class ScalarConverter
 	{
 		private:
@@ -28,18 +30,18 @@
 			int	ft_is_INT( const std::string& str );
 			int	ft_is_C(const std::string& str);
 
-			void	ft_print_C( const std::string& arg );
-			void	ft_print_INT( const std::string& arg);
-			void	ft_print_Float( const std::string& arg);
-			void	ft_print_double( const std::string& arg);
+			static void	ft_print_C( const std::string& arg );
+			static void	ft_print_INT( const std::string& arg);
+			static void	ft_print_Float( const std::string& arg);
+			static void	ft_print_double( const std::string& arg);
 
 			ScalarConverter( void );
-			virtual ~ScalarConverter();
+			~ScalarConverter();
 			// ScalarConverter( const ScalarConverter& copy );
 			ScalarConverter& operator=( ScalarConverter& rhs );
-			void convert( const std::string &arg );
+			static void convert( const std::string &arg );
 	};
 
-int	getType( const std::string& str , int *type, bool *Impossible, bool *nonDisplay);
+// int	getType( const std::string& str , int *type, bool *Impossible, bool *nonDisplay);
 
 # endif

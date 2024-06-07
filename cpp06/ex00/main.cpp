@@ -17,5 +17,5 @@ int main( int ac, char **av )
 		std::cerr << "invalid argument" << std::endl;
 		return 2;
 	}
-	convert.convert(str);
+	ScalarConverter::convert(str);
 }
