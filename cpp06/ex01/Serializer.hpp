@@ -10,17 +10,17 @@
 		private:
 			Data* _data;
 			uintptr_t _res;
-		public:
 			Serializer( void );
 			Serializer( Data* ptr );
 			Serializer( Serializer& copy );
+		public:
 			~Serializer();
 
 			Serializer&	operator=( Serializer& rhs );
 
 			int	GetDataValue( void ) const;
-			uintptr_t serialize(Data* ptr);
-			Data* deserialize(uintptr_t raw);
+			static uintptr_t serialize(Data* ptr);
+			static Data* deserialize(uintptr_t raw);
 	};
 
 std::ostream&	operator<<( std::ostream o, Serializer& rhs );
