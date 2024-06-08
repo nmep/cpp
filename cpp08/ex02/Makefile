@@ -1,4 +1,4 @@
-NAME = whatever
+NAME = qwer
 
 SRC = $(notdir $(shell find ./ -name "*.cpp"))
 

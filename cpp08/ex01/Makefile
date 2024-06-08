@@ -1,4 +1,4 @@
-NAME = whatever
+NAME = span
 
 SRC = $(notdir $(shell find ./ -name "*.cpp"))
 
