@@ -1,4 +1,4 @@
-NAME = whatever
+NAME = EasyFind
 
 SRC = $(notdir $(shell find ./ -name "*.cpp"))
 
