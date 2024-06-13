@@ -1,6 +1,6 @@
 NAME = Iter
 
-SRC = $(notdir $(shell find ./ -name "*.cpp"))
+SRC = main.cpp
 
 OBJ = $(addprefix ./obj/, $(notdir $(SRC:.cpp=.o)))
 DEP_FILES = $(addprefix ./dep/, $(notdir $(OBJ:.o=.d)))

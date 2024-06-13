@@ -1,11 +1,12 @@
 NAME = span
 
-SRC = $(notdir $(shell find ./ -name "*.cpp"))
+SRC = main.cpp\
+		span.cpp
 
 OBJ = $(addprefix ./obj/, $(notdir $(SRC:.cpp=.o)))
 DEP_FILES = $(addprefix ./dep/, $(notdir $(OBJ:.o=.d)))
 
-header = $(shell find ./ -name "*.hpp")
+header = Span.hpp
 
 CC = c++
 
