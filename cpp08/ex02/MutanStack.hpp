@@ -25,6 +25,30 @@
 			iterator end() {
 				return this->c.end();
 			}
+			void push_multiple(const T* array, int count)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					this->push(array[i]);
+				}
+			}
 	};
+
+template <typename T, typename Container>
+std::ostream& operator<<(std::ostream & o, MutantStack<T, Container> & other)
+{
+	typename MutantStack<T, Container>::iterator it;
+
+	if (other.begin() == other.end())
+	{
+		o << "this stack is empty" << std::endl;
+		return o;
+	}
+	for (it = other.begin(); it != other.end(); ++it)
+	{
+		o << *it << std::endl;
+	}
+	return o;
+}
 
 # endif

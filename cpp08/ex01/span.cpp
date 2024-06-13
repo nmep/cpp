@@ -6,6 +6,12 @@ Span::Span( void ) : _size(0)
 	this->it = this->_v.begin();
 }
 
+Span::Span( Span const & copy ) : _size(copy.getSize())
+{
+	std::cout << "copy constructor called" << std::endl;
+	std::copy(copy._v.begin(), copy._v.end(), std::back_inserter(this->_v));
+}
+
 Span::Span( unsigned int n ) : _size(n)
 {
 	std::cout << "non signed constructor called size = " << this->_size << std::endl;
@@ -61,4 +67,32 @@ int	Span::longestSpan( void )
 	it_e--;
 
 	return *(it_e) - *it_b;
+}
+
+Span& Span::operator=(Span const & rhs )
+{
+	this->_size = rhs.getSize();
+	std::copy(rhs._v.begin(), rhs._v.end(), std::back_inserter(this->_v));
+	return *this;
+}
+
+void	Span::printV()
+{
+	std::cout << "Print vector called" << std::endl;
+	std::vector<int>::iterator it = this->_v.begin();
+	if (this->_v.empty())
+	{
+		std::cout << "the vector of this object is empty" << std::endl;
+		return ;
+	}
+	for (/* nope */; it != this->_v.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
+}
+
+std::ostream & operator<<(std::ostream & o, Span & other )
+{
+	other.printV();
+	return o;
 }
