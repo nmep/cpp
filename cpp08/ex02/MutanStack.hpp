@@ -9,6 +9,8 @@
 	class MutantStack : public std::stack<T>
 	{
 		public:
+			typedef T*	it;
+
 			MutantStack() : std::stack<T, Container> () {};
 			~MutantStack() {};
 			MutantStack( const MutantStack & copy ) {
