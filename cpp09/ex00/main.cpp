@@ -8,16 +8,32 @@ int	main(int ac, char **av)
 		std::cout << "Usage ./btc <my_database_file>" << std::endl;
 		return 2;
 	}
-	std::string infile(av[1]);
 	bitcoinExchange a;
 	// avoir la valeur stocke
 	try
 	{
-		a.getMap(infile);
+		a.getMap("data.csv");
 	}
 	catch (invalidFile& e)
 	{
-		std::cerr << RED << e.what() << RESET << '\n';
+		std::cerr << RED << "data file " << e.what() << RESET << '\n';
+		return (1);
 	}
-	// prend le file inpute
+	// std::cout << a;
+	
+	std::string infileStr(av[1]);
+
+	try
+	{
+		a.getInMap(infileStr);
+	}
+	catch(invalidFile& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	// ouvrir le fichier entrant
+	// split la donee et l'insserer dans in_m
+	// verifier si la value est correct
+	
+
 }

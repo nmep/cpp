@@ -14,13 +14,17 @@
 	{
 		private:
 			std::map<std::string, float>	m;
+			// std::map<std::string, float>	in_m;
 
 		public:
 			bitcoinExchange(void);
-			// bitcoinExchange(bitcoinExchange & copy);
+			bitcoinExchange(bitcoinExchange & copy);
 			~bitcoinExchange();
-			void	parseFile(std::string& infile);
-			void	getMap(std::string& infile);
+			void	parseFile(const std::string& infile);
+			void	getMap(const std::string& infile);
+			void	getInMap(std::string & infileStr);
+			void	findHashMap(std::string & date);
+			void	printMap(std::ostream & o);
 	};
 
 // exception
@@ -41,8 +45,8 @@
 			}
 	};
 
-
 // surcharge d'operateur << qui affichage la map entiere
+std::ostream& operator<<(std::ostream& o, bitcoinExchange& other);
 
 // // get line
 	// while (getline(inputeFile, line)) {

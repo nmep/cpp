@@ -2,6 +2,17 @@
 
 bitcoinExchange::bitcoinExchange(void) {}
 
+bitcoinExchange::bitcoinExchange(bitcoinExchange& copy)
+{
+	std::map<std::string, float>::iterator cit = copy.m.begin();
+	std::map<std::string, float>::iterator cite = copy.m.end();
+
+	for (/*nope*/; cit != cite; ++cit)
+	{
+		this->m[cit->first] = cit->second;
+	}
+}
+
 bitcoinExchange::~bitcoinExchange() {}
 
 static std::vector<std::string> split(const std::string& str, char delimiter)
@@ -29,22 +40,28 @@ static void	parseDate(const std::string & date)
 	std::vector<std::string> v;
 	if (date.length() == 0)
 		throw std::invalid_argument("date can't be empty");
+	std::cout << "a" << std::endl;
 	if (std::count(date.begin(), date.end(), '-') != 2)
 		throw std::invalid_argument("date format is Y-M-D");
+	std::cout << "b" << std::endl;
+	std::cout << "date = " << date << std::endl;
 	for (unsigned int i = 0; i < date.size(); i++)
 	{
 		if (!isdigit(date[i]) && date[i] != '-')
 			throw std::invalid_argument(std::string(1, date[i]) + " invalid argument");
 	}
+	std::cout << "c" << std::endl;
 	v = split(date, '-');
 
 	Y = atoi(v[0].c_str());
 	M = atoi(v[1].c_str());
 
 	struct tm tm;
+	std::cout << "d" << std::endl;
 	if (!strptime(date.c_str(), "%Y-%m-%d", &tm) || (v[1] == "02"
 		&& (v[2] == "30" || v[2] == "31")))
 		throw nonValidDate();
+	std::cout << "e" << std::endl;
 	if (v[1] == "02" && v[2] == "29")
 	{
 		if ((Y % 4 == 0 && Y % 100 != 0) || Y % 400 == 0)
@@ -52,6 +69,7 @@ static void	parseDate(const std::string & date)
 		else
 			throw nonValidDate();
 	}
+	std::cout << "f" << std::endl;
 }
 
 static void parseValue(const std::string & value)
@@ -62,52 +80,71 @@ static void parseValue(const std::string & value)
 		throw std::invalid_argument("to many \'.\'");
 	for (size_t i = 0; i < value.size(); i++)
 	{
-		if (!isdigit(value[i]) && value[i] != '.')
+		if ((!isdigit(value[i]) && value[i] != '.') && (i != 0 && value[i] == '-'))
+		{
+			std::cout << "value = " << value << std::endl;
 			throw std::invalid_argument("value:" + std::string(1, value[i]) +  " invalid arugment");
+		}
 	}
-
 }
 
-static void getDateAndValue(std::string line, std::string *date, std::string *value)
+static void getDateAndValue(std::string line, std::string *date, std::string *value, char delimiter)
 {
-	*date = line.substr(0, line.find(','));
+	
+	*date = line.substr(0, line.find(delimiter));
+	std::cout << "date = " << *date << std::endl;
 	try
 	{
 		parseDate(*date);
 	}
 	catch(std::invalid_argument& e)
 	{
+		std::cout << "1" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 	catch(nonValidDate& e)
 	{
+		std::cout << "2" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 
 	*value = line.substr(line.find(',') + 1);
+	std::cout << "value = " << *value << std::endl;
+
 	try
 	{
 		parseValue(*value);
 	}
 	catch (std::invalid_argument& e)
 	{
+		std::cout << "3" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 }
 
-static float strtof(const std::string & str)
+static float strtof(const std::string & str, int check_oof) // out of range
 {
-	int i = 0;
-	int s = 1;
-	float res = 0.0;
-	float fractFactor = 1.0;
+	float res = 0.0f;
+	float fractionnalPArt = 1.0f;
+	int	i = 0;
 
+	while (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			throw std::invalid_argument("Error: not a positive number");
+		i++;
+	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = (res * 10.0) + (str[i] - 48);
+		if (check_oof)
+		{
+			if (res * 10 > 1000 || (res * 10 == 1000 && (str[i] - 48) > '0'))
+				throw std::out_of_range("0 <= value <= 1000");
+		}
+		res = res * 10 + (str[i] - 48);
 		i++;
 	}
 	if (str[i] == '.')
@@ -115,16 +152,15 @@ static float strtof(const std::string & str)
 		i++;
 		while (str[i] >= '0' && str[i] <= '9')
 		{
-			fractFactor *= 0.1;
-			res += (str[i] - 48) * fractFactor;
+			fractionnalPArt *= 0.1;
+			res+= (str[i] - 48) * fractionnalPArt;
 			i++;
 		}
 	}
-	std::cout << "atof i = " << i << std::endl;
-	return  res * s;
+	return res;
 }
 
-void	bitcoinExchange::parseFile(std::string& infile)
+void	bitcoinExchange::parseFile(const std::string& infile)
 {
 	// get file
 	std::ifstream inputeFile(infile.c_str());
@@ -136,6 +172,7 @@ void	bitcoinExchange::parseFile(std::string& infile)
 	// get line
 	std::string line;
 	getline(inputeFile, line);
+	// check si la ligne est vide > fichier vide
 	std::string date;
 	std::string value;
 	while (getline(inputeFile, line))
@@ -143,22 +180,38 @@ void	bitcoinExchange::parseFile(std::string& infile)
 		// check line
 		try
 		{
-			getDateAndValue(line, &date, &value); // to check
+			getDateAndValue(line, &date, &value, ',');
 		}
 		catch(invalidFile& e)
 		{
+			inputeFile.close();
 			throw invalidFile();
 		}
 		// if line is good convert value in int
-		float f = strtof(value);
-		std::cout << "value = " << value << std::endl;
-		std::cout << "f apres convertion = " << f << std::endl;
 		// insert it to map;
-		// this->m[date] = strtof(value);
+		try
+		{
+			this->m[date] = strtof(value, 0);
+		}
+		catch(const std::out_of_range& e)
+		{
+			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
+			inputeFile.close();
+			throw invalidFile();
+		}
+		catch(const std::invalid_argument& e)
+		{
+			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
+			inputeFile.close();
+			throw invalidFile();
+		}
 	}
+	inputeFile.close();
 }
 
-void	bitcoinExchange::getMap(std::string& infile)
+
+
+void	bitcoinExchange::getMap(const std::string& infile)
 {
 	try
 	{
@@ -168,4 +221,80 @@ void	bitcoinExchange::getMap(std::string& infile)
 	{
 		throw invalidFile();
 	}
+}
+
+void	bitcoinExchange::findHashMap(std::string& date)
+{
+	std::map<std::string, float>::iterator it = this->m.begin();
+	std::map<std::string, float>::iterator ite = this->m.end();
+
+	for (/**/; it != ite; ++it)
+	{
+		if (it->first == date)
+		{
+			std::cout << "date trouve" << std::endl;
+			break ;
+		}
+		std::cout << date << " = " << it->first << " ?" << std::endl;
+	}
+	std::cout << "date non trouver" << std::endl;
+}
+
+void	bitcoinExchange::getInMap(std::string & infileStr)
+{
+	std::ifstream inputeFile(infileStr.c_str());
+	if (!inputeFile.is_open())
+	{
+		std::cerr << "Error while open " << infileStr << std::endl;
+		throw invalidFile();
+	}
+	std::string line;
+	getline(inputeFile, line);
+	std::string date;
+	std::string value;
+	while (getline(inputeFile, line))
+	{
+		// check line
+		try
+		{
+			getDateAndValue(line, &date, &value, '|'); // to check
+		}
+		catch(invalidFile& e)
+		{
+			std::cout << "Error: bad input => " << date << std::endl;
+			continue ;
+			// ne pas throw, passer a la ligne suivante
+		}
+		// if line is good convert value in int
+		// insert it to map;
+		// float value = 0.0f;
+		try
+		{
+			findHashMap(date);
+			// fonction qui calcule la value par la value associe a la date dans map
+		}
+		catch(const std::out_of_range& e)
+		{
+			std::cerr << "Error: too large number." << std::endl;
+			continue ;
+			// ne pas throw, passer a la ligne suivante
+		}
+	}
+	inputeFile.close();
+}
+
+void	bitcoinExchange::printMap(std::ostream& o)
+{
+	std::map<std::string, float>::iterator it = this->m.begin();
+	std::map<std::string, float>::iterator ite = this->m.end();
+
+	for (/* nope*/; it != ite; ++it)
+	{
+		o << "date = " << it->first << " | value = " << it->second << std::endl;
+	}
+}
+std::ostream& operator<<(std::ostream& o, bitcoinExchange& other)
+{
+	other.printMap(o);
+	return o;
 }
