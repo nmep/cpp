@@ -44,7 +44,7 @@ static void	parseDate(const std::string & date)
 	if (std::count(date.begin(), date.end(), '-') != 2)
 		throw std::invalid_argument("date format is Y-M-D");
 	std::cout << "b" << std::endl;
-	std::cout << "date = " << date << std::endl;
+	std::cout << "date = [" << date << "]" << std::endl;
 	for (unsigned int i = 0; i < date.size(); i++)
 	{
 		if (!isdigit(date[i]) && date[i] != '-')
@@ -90,8 +90,9 @@ static void parseValue(const std::string & value)
 
 static void getDateAndValue(std::string line, std::string *date, std::string *value, char delimiter)
 {
-	
 	*date = line.substr(0, line.find(delimiter));
+	if (!date->empty() && (*date)[date->size() - 1] == ' ')
+		date->erase(date->size() - 1, date->size());
 	std::cout << "date = " << *date << std::endl;
 	try
 	{
@@ -110,7 +111,7 @@ static void getDateAndValue(std::string line, std::string *date, std::string *va
 		throw invalidFile();
 	}
 
-	*value = line.substr(line.find(',') + 1);
+	*value = line.substr(line.find(delimiter) + 1);
 	std::cout << "value = " << *value << std::endl;
 
 	try
@@ -254,6 +255,7 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 	std::string value;
 	while (getline(inputeFile, line))
 	{
+		std::cout << "-------------" << std::endl;
 		// check line
 		try
 		{
