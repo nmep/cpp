@@ -81,27 +81,27 @@ static void parseValue(const std::string & value)
 	}
 }
 
-static void getDateAndValue(std::string line, std::string *date, std::string *value, char delimiter)
+static void getDateAndValue(std::string line, std::string *date, std::string *value, char delimiter, int print)
 {
 	*date = line.substr(0, line.find(delimiter));
 	if (!date->empty() && (*date)[date->size() - 1] == ' ')
 		date->erase(date->size() - 1, date->size());
-	// std::cout << "date = " << *date << std::endl;
 	try
 	{
 		parseDate(*date);
 	}
 	catch(std::invalid_argument& e)
 	{
-		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
+		if (print)
+			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 	catch(nonValidDate& e)
 	{
-		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
+		if (print)
+			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
-
 	*value = line.substr(line.find(delimiter) + 1);
 	if (!value->empty() && (*value)[0] == ' ')
 		value->erase(0, 1);
@@ -111,7 +111,8 @@ static void getDateAndValue(std::string line, std::string *date, std::string *va
 	}
 	catch (std::invalid_argument& e)
 	{
-		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
+		if (print)
+			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 }
@@ -135,7 +136,7 @@ static float strtof(const std::string & str, int check_oof) // out of range
 		if (check_oof)
 		{
 			if (res * 10 > 1000 || (res * 10 == 1000 && (str[i] - 48) > '0'))
-				throw std::out_of_range("0 <= value <= 1000");
+				throw std::out_of_range("Error: too large a number");
 		}
 		res = res * 10 + (str[i] - 48);
 		i++;
@@ -155,33 +156,27 @@ static float strtof(const std::string & str, int check_oof) // out of range
 
 void	bitcoinExchange::parseFile(const std::string& infile)
 {
-	// get file
 	std::ifstream inputeFile(infile.c_str());
 	if (!inputeFile.is_open())
 	{
 		std::cerr << "Error while open " << infile << std::endl;
 		throw invalidFile();
 	}
-	// get line
 	std::string line;
 	getline(inputeFile, line);
-	// check si la ligne est vide > fichier vide
 	std::string date;
 	std::string value;
 	while (getline(inputeFile, line))
 	{
-		// check line
 		try
 		{
-			getDateAndValue(line, &date, &value, ',');
+			getDateAndValue(line, &date, &value, ',', 1);
 		}
 		catch(invalidFile& e)
 		{
 			inputeFile.close();
 			throw invalidFile();
 		}
-		// if line is good convert value in int
-		// insert it to map;
 		try
 		{
 			this->m[date] = strtof(value, 0);
@@ -256,16 +251,14 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 	while (getline(inputeFile, line))
 	{
 		std::cout << "-------------" << std::endl;
-		// check line
 		try
 		{
-			getDateAndValue(line, &date, &value, '|'); // to check
+			getDateAndValue(line, &date, &value, '|', 0); // to check
 		}
 		catch(invalidFile& e)
 		{
 			std::cout << "Error: bad input => " << date << std::endl;
 			continue ;
-			// ne pas throw, passer a la ligne suivante
 		}
 		try
 		{
@@ -287,7 +280,6 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 			std::cout << "Error: too large a number" << std::endl;
 			continue;
 		}
-		// std::cout << "f1 = " << f1 << " f2 = " << f2 << std::endl;
 		std::cout << date << " => " << value << " = " << f1 * f2 << std::endl;
 	}
 	inputeFile.close();
