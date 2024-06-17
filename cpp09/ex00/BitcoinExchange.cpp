@@ -212,7 +212,7 @@ void	bitcoinExchange::getMap(const std::string& infile)
 	}
 }
 
-void	bitcoinExchange::findHashMap(std::string& date)
+float	bitcoinExchange::findHashMap(std::string& date)
 {
 	std::cout << "date a cherche = " << date << std::endl;
 	// chercher directement dans m avec date
@@ -223,7 +223,8 @@ void	bitcoinExchange::findHashMap(std::string& date)
 	if (it != ite)
 	{
 		std::cout << "date trouve date = " << it->first << " value = " << it->second << std::endl;
-		return ;
+		// prendre la valeur du second et 
+		return it->second;
 	}
 	else
 	{
@@ -233,6 +234,8 @@ void	bitcoinExchange::findHashMap(std::string& date)
 		{
 			--it;
 			std::cout << "date la plus proche " << it->first << std::endl;
+			return it->second;
+
 		}
 		else
 		{
@@ -240,8 +243,10 @@ void	bitcoinExchange::findHashMap(std::string& date)
 				--it;
 			std::cout << "la" << std::endl;
 			std::cout << it->first << std::endl;
+			return it->second;
 		}
 	}
+	return it->second;
 }
 
 void	bitcoinExchange::getInMap(std::string & infileStr)
@@ -272,18 +277,19 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 		}
 		// if line is good convert value in int
 		// insert it to map;
-		// float value = 0.0f;
-		try
-		{
-			findHashMap(date);
-			// fonction qui calcule la value par la value associe a la date dans map
-		}
-		catch(const std::out_of_range& e)
-		{
-			std::cerr << "Error: too large number." << std::endl;
-			continue ;
-			// ne pas throw, passer a la ligne suivante
-		}
+		float valueIn = findHashMap(date);
+		std::cout << valueIn << std::endl;
+		// float valueD = 
+		// try
+		// {
+		// 	// fonction qui calcule la value par la value associe a la date dans map
+		// }
+		// catch(const std::out_of_range& e)
+		// {
+		// 	std::cerr << "Error: too large number." << std::endl;
+		// 	continue ;
+		// 	// ne pas throw, passer a la ligne suivante
+		// }
 	}
 	inputeFile.close();
 }

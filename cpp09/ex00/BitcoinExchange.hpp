@@ -23,7 +23,7 @@
 			void	parseFile(const std::string& infile);
 			void	getMap(const std::string& infile);
 			void	getInMap(std::string & infileStr);
-			void	findHashMap(std::string & date);
+			float	findHashMap(std::string & date);
 			void	printMap(std::ostream & o);
 	};
 
