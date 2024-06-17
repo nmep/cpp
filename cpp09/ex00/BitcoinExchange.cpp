@@ -40,28 +40,22 @@ static void	parseDate(const std::string & date)
 	std::vector<std::string> v;
 	if (date.length() == 0)
 		throw std::invalid_argument("date can't be empty");
-	std::cout << "a" << std::endl;
 	if (std::count(date.begin(), date.end(), '-') != 2)
 		throw std::invalid_argument("date format is Y-M-D");
-	std::cout << "b" << std::endl;
-	std::cout << "date = [" << date << "]" << std::endl;
 	for (unsigned int i = 0; i < date.size(); i++)
 	{
 		if (!isdigit(date[i]) && date[i] != '-')
 			throw std::invalid_argument(std::string(1, date[i]) + " invalid argument");
 	}
-	std::cout << "c" << std::endl;
 	v = split(date, '-');
 
 	Y = atoi(v[0].c_str());
 	M = atoi(v[1].c_str());
 
 	struct tm tm;
-	std::cout << "d" << std::endl;
 	if (!strptime(date.c_str(), "%Y-%m-%d", &tm) || (v[1] == "02"
 		&& (v[2] == "30" || v[2] == "31")))
 		throw nonValidDate();
-	std::cout << "e" << std::endl;
 	if (v[1] == "02" && v[2] == "29")
 	{
 		if ((Y % 4 == 0 && Y % 100 != 0) || Y % 400 == 0)
@@ -69,7 +63,6 @@ static void	parseDate(const std::string & date)
 		else
 			throw nonValidDate();
 	}
-	std::cout << "f" << std::endl;
 }
 
 static void parseValue(const std::string & value)
@@ -93,26 +86,24 @@ static void getDateAndValue(std::string line, std::string *date, std::string *va
 	*date = line.substr(0, line.find(delimiter));
 	if (!date->empty() && (*date)[date->size() - 1] == ' ')
 		date->erase(date->size() - 1, date->size());
-	std::cout << "date = " << *date << std::endl;
+	// std::cout << "date = " << *date << std::endl;
 	try
 	{
 		parseDate(*date);
 	}
 	catch(std::invalid_argument& e)
 	{
-		std::cout << "1" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 	catch(nonValidDate& e)
 	{
-		std::cout << "2" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
 
 	*value = line.substr(line.find(delimiter) + 1);
-	std::cout << "value = " << *value << std::endl;
+	// std::cout << "value = " << *value << std::endl;
 
 	try
 	{
@@ -120,7 +111,6 @@ static void getDateAndValue(std::string line, std::string *date, std::string *va
 	}
 	catch (std::invalid_argument& e)
 	{
-		std::cout << "3" << std::endl;
 		std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
 		throw invalidFile();
 	}
@@ -210,8 +200,6 @@ void	bitcoinExchange::parseFile(const std::string& infile)
 	inputeFile.close();
 }
 
-
-
 void	bitcoinExchange::getMap(const std::string& infile)
 {
 	try
@@ -226,19 +214,34 @@ void	bitcoinExchange::getMap(const std::string& infile)
 
 void	bitcoinExchange::findHashMap(std::string& date)
 {
-	std::map<std::string, float>::iterator it = this->m.begin();
+	std::cout << "date a cherche = " << date << std::endl;
+	// chercher directement dans m avec date
+	std::map<std::string, float>::iterator it = this->m.find(date);
 	std::map<std::string, float>::iterator ite = this->m.end();
 
-	for (/**/; it != ite; ++it)
+	// si pas trouver afficher trouve
+	if (it != ite)
 	{
-		if (it->first == date)
-		{
-			std::cout << "date trouve" << std::endl;
-			break ;
-		}
-		std::cout << date << " = " << it->first << " ?" << std::endl;
+		std::cout << "date trouve date = " << it->first << " value = " << it->second << std::endl;
+		return ;
 	}
-	std::cout << "date non trouver" << std::endl;
+	else
+	{
+		std::cout << "date non trouve " << std::endl;
+		it = this->m.lower_bound(date);
+		if (it == ite)
+		{
+			--it;
+			std::cout << "date la plus proche " << it->first << std::endl;
+		}
+		else
+		{
+			if (it != this->m.begin())
+				--it;
+			std::cout << "la" << std::endl;
+			std::cout << it->first << std::endl;
+		}
+	}
 }
 
 void	bitcoinExchange::getInMap(std::string & infileStr)
