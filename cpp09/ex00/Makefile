@@ -1,11 +1,12 @@
 NAME = btc
 
-SRC =	$(notdir $(shell find ./ -type f -name "*.cpp"))
+SRC =	main.cpp\
+		BitcoinExchange.cpp
 
 OBJ = $(addprefix ./obj/, $(notdir $(SRC:.cpp=.o)))
 DEP_FILES = $(addprefix ./dep/, $(notdir $(OBJ:.o=.d)))
 
-header = $(shell find ./ -type f -name "*.hpp")
+header = ./BitcoinExchange.hpp
 
 CC = c++
 

@@ -246,6 +246,17 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 	}
 	std::string line;
 	getline(inputeFile, line);
+	if (line.empty())
+	{
+		std::cerr << "Empty file" << std::endl;
+		throw invalidFile();
+	}
+	else if (isdigit(line[0]))
+	{
+		std::cerr << "Error:\n\tfirst line must be the body format\n\texample: \"date | value\"" << std::endl;
+		throw invalidFile();
+	}
+	std::cout << "line = " << line << std::endl;
 	std::string date;
 	std::string value;
 	while (getline(inputeFile, line))
