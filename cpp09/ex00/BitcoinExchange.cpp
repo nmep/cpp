@@ -103,8 +103,8 @@ static void getDateAndValue(std::string line, std::string *date, std::string *va
 	}
 
 	*value = line.substr(line.find(delimiter) + 1);
-	// std::cout << "value = " << *value << std::endl;
-
+	if (!value->empty() && (*value)[0] == ' ')
+		value->erase(0, 1);
 	try
 	{
 		parseValue(*value);
@@ -122,6 +122,8 @@ static float strtof(const std::string & str, int check_oof) // out of range
 	float fractionnalPArt = 1.0f;
 	int	i = 0;
 
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
 	while (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
@@ -214,35 +216,23 @@ void	bitcoinExchange::getMap(const std::string& infile)
 
 float	bitcoinExchange::findHashMap(std::string& date)
 {
-	std::cout << "date a cherche = " << date << std::endl;
-	// chercher directement dans m avec date
 	std::map<std::string, float>::iterator it = this->m.find(date);
 	std::map<std::string, float>::iterator ite = this->m.end();
 
-	// si pas trouver afficher trouve
 	if (it != ite)
-	{
-		std::cout << "date trouve date = " << it->first << " value = " << it->second << std::endl;
-		// prendre la valeur du second et 
 		return it->second;
-	}
 	else
 	{
-		std::cout << "date non trouve " << std::endl;
 		it = this->m.lower_bound(date);
 		if (it == ite)
 		{
 			--it;
-			std::cout << "date la plus proche " << it->first << std::endl;
 			return it->second;
-
 		}
 		else
 		{
 			if (it != this->m.begin())
 				--it;
-			std::cout << "la" << std::endl;
-			std::cout << it->first << std::endl;
 			return it->second;
 		}
 	}
@@ -251,6 +241,8 @@ float	bitcoinExchange::findHashMap(std::string& date)
 
 void	bitcoinExchange::getInMap(std::string & infileStr)
 {
+	float f1;
+	float f2;
 	std::ifstream inputeFile(infileStr.c_str());
 	if (!inputeFile.is_open())
 	{
@@ -275,21 +267,28 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 			continue ;
 			// ne pas throw, passer a la ligne suivante
 		}
-		// if line is good convert value in int
-		// insert it to map;
-		float valueIn = findHashMap(date);
-		std::cout << valueIn << std::endl;
-		// float valueD = 
-		// try
-		// {
-		// 	// fonction qui calcule la value par la value associe a la date dans map
-		// }
-		// catch(const std::out_of_range& e)
-		// {
-		// 	std::cerr << "Error: too large number." << std::endl;
-		// 	continue ;
-		// 	// ne pas throw, passer a la ligne suivante
-		// }
+		try
+		{
+			f2 = strtof(value, 1);
+		}
+		catch(const std::out_of_range& e)
+		{
+			std::cout << e.what() << '\n';
+			continue;
+		}
+		catch(const std::invalid_argument& e)
+		{
+			std::cout << "Error: too large a number" << std::endl;
+			continue;
+		}
+		f1 = findHashMap(date);
+		if (f1 < 0 || f1 > 1000)
+		{
+			std::cout << "Error: too large a number" << std::endl;
+			continue;
+		}
+		// std::cout << "f1 = " << f1 << " f2 = " << f2 << std::endl;
+		std::cout << date << " => " << value << " = " << f1 * f2 << std::endl;
 	}
 	inputeFile.close();
 }
