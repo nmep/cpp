@@ -137,7 +137,6 @@ static float strtof(const std::string & str, int check_oof) // out of range
 		{
 			if (res * 10 > 1000 || (res * 10 == 1000 && str[i] - 48 > 0))
 			{
-				std::cout << "res = " << res << std::endl;
 				throw std::out_of_range("Error: too large a number");
 			}
 		}
