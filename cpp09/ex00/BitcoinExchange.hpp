@@ -7,6 +7,7 @@
 	# include <sstream>
 	# include <vector>
 	# include <ctime>
+	# include <limits.h>
 
 	# define RED "\033[31m"
 	# define RESET "\033[0m"

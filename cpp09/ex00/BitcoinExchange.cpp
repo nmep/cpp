@@ -75,7 +75,7 @@ static void parseValue(const std::string & value)
 	{
 		if ((!isdigit(value[i]) && value[i] != '.') && (i != 0 && value[i] == '-'))
 		{
-			std::cout << "value = " << value << std::endl;
+			std::cout << "throw ici sur [" << value << "] c = " << value[i] << std::endl;
 			throw std::invalid_argument("value:" + std::string(1, value[i]) +  " invalid arugment");
 		}
 	}
@@ -135,8 +135,11 @@ static float strtof(const std::string & str, int check_oof) // out of range
 	{
 		if (check_oof)
 		{
-			if (res * 10 > 1000 || (res * 10 == 1000 && (str[i] - 48) > '0'))
+			if (res * 10 > 1000 || (res * 10 == 1000 && str[i] - 48 > 0))
+			{
+				std::cout << "res = " << res << std::endl;
 				throw std::out_of_range("Error: too large a number");
+			}
 		}
 		res = res * 10 + (str[i] - 48);
 		i++;
@@ -168,6 +171,11 @@ void	bitcoinExchange::parseFile(const std::string& infile)
 	std::string value;
 	while (getline(inputeFile, line))
 	{
+		if (line.empty())
+		{
+			std::cout << RED << "empty line" << RESET << std::endl;
+			continue ;
+		}
 		try
 		{
 			getDateAndValue(line, &date, &value, ',', 1);
@@ -177,22 +185,7 @@ void	bitcoinExchange::parseFile(const std::string& infile)
 			inputeFile.close();
 			throw invalidFile();
 		}
-		try
-		{
-			this->m[date] = strtof(value, 0);
-		}
-		catch(const std::out_of_range& e)
-		{
-			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
-			inputeFile.close();
-			throw invalidFile();
-		}
-		catch(const std::invalid_argument& e)
-		{
-			std::cerr << RED << e.what() << '\n' << "\tline: " << '\'' << line << '\'' << RESET << std::endl;
-			inputeFile.close();
-			throw invalidFile();
-		}
+		this->m[date] = strtof(value, 0);
 	}
 	inputeFile.close();
 }
@@ -256,11 +249,12 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 		std::cerr << "Error:\n\tfirst line must be the body format\n\texample: \"date | value\"" << std::endl;
 		throw invalidFile();
 	}
-	std::cout << "line = " << line << std::endl;
 	std::string date;
 	std::string value;
 	while (getline(inputeFile, line))
 	{
+		if (line.empty())
+			continue ;
 		std::cout << "-------------" << std::endl;
 		try
 		{
@@ -268,7 +262,7 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 		}
 		catch(invalidFile& e)
 		{
-			std::cout << "Error: bad input => " << date << std::endl;
+			std::cout << RED << "Error: bad input => " << date << RESET << std::endl;
 			continue ;
 		}
 		try
@@ -277,20 +271,15 @@ void	bitcoinExchange::getInMap(std::string & infileStr)
 		}
 		catch(const std::out_of_range& e)
 		{
-			std::cout << e.what() << '\n';
+			std::cout << RED << e.what() << RESET << '\n';
 			continue;
 		}
 		catch(const std::invalid_argument& e)
 		{
-			std::cout << "Error: too large a number" << std::endl;
+			std::cout << RED << e.what() << RESET << std::endl;
 			continue;
 		}
 		f1 = findHashMap(date);
-		if (f1 < 0 || f1 > 1000)
-		{
-			std::cout << "Error: too large a number" << std::endl;
-			continue;
-		}
 		std::cout << date << " => " << value << " = " << f1 * f2 << std::endl;
 	}
 	inputeFile.close();
