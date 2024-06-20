@@ -19,15 +19,13 @@ int	main(int ac, char **av)
 	if (!ft_create_vector(&v, av))
 		return 1;
 
-	unsigned long long l_last = -1;
-	unsigned long long v_last = -1;
-	if (l.size() % 2 != 0)
-	{
-		l_last = l.back();
-		l.pop_back();
-		v_last = v.back();
-		v.pop_back();
-	}
+	// if (l.size() % 2 != 0)
+	// {
+	// 	l_last = l.back();
+	// 	l.pop_back();
+	// 	v_last = v.back();
+	// 	v.pop_back();
+	// }
 
-	ft_list_MJ(l, l_last, l.size());
+	ft_list_MJ(l, l.size() / 2);
 }

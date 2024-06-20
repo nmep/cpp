@@ -60,17 +60,19 @@ void	ft_print_list(std::list<unsigned long long> & l)
 
 	if (it == ite)
 	{
-		std::cout << "empty vector" << std::endl;
+		std::cout << "empty list" << std::endl;
 		return ;
 	}
 	std::cout << "---------" << std::endl;
 	for (/**/; it != ite; ++it)
 	{
+		std::cout << "la" << std::endl;
 		std::cout << *it << ' ';
 	}
 	std::cout << std::endl;
 	std::cout << "---------" << std::endl;
 }
+
 
 int	ft_create_vector(std::vector<unsigned long long> *v, char **av)
 {
@@ -117,22 +119,12 @@ void	ft_print_vector(std::vector<unsigned long long> & v)
 	std::cout << "---------" << std::endl;
 }
 
-void	ft_list_MJ(std::list<unsigned long long> & l, unsigned long long l_last, int size)
+void	ft_list_MJ(std::list<unsigned long long> & l, int segment_size)
 {
-	(void)l_last;
-	ft_print_list(l);
-	std::cout << "size = " << l.size() << std::endl;
-	std::cout << std::endl;
-	if (l.size() <= 1 )
-		return ;
-	std::list<unsigned long long>left;
-	std::list<unsigned long long>right;
+	std::list<unsigned long long>::iterator it = l.begin();
+	std::list<unsigned long long> left;
+	std::list<unsigned long long> right;
 
-	std::list<unsigned long long>::iterator median = l.begin();
-	std::advance(median, l.size() / 2);
-
-	left.splice(left.begin(), l, l.begin(), median);
-	right.splice(right.begin(), l, median, l.end());
-	ft_list_MJ(left, l_last, size);
-	ft_list_MJ(right, l_last, size);
+	left.splice(-)
+ 	return ;
 }
