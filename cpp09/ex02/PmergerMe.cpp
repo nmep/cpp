@@ -31,42 +31,45 @@ void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::d
 {
 	int range = std::distance(start, end);
 
-	// std::cout << "nouvelle list" << std::endl;
-	// ft_print_T(start, end);
+	std::cout << "nouvelle list" << std::endl;
+	ft_print_T(start, end);
 	if (range > 2)
 	{
 		d_it median = start + range / 2;
 		if (range == 3)
+		{
+			std::cout << "median++" << std::endl;
 			median++;
-		std::cout << "la median est " << *median << std::endl;
+		}
 		ft_FJ_deque(d, start, median, max_elements);
 		ft_FJ_deque(d, median, end, max_elements);
 	}
 
 	if (range == 2)
 	{
-		if (*start > *(end - 1))
+		std::cout << "start = " << *start << " end = " << *(end) << std::endl;
+		if (*start > *(end))
 		{
-			max_elements->push_front(*start);
+			max_elements->push_front(*start); // insert recursive
 			d->erase(start);
+			std::cout << "plus grand" << std::endl;
 		}
 		else
 		{
-			max_elements->push_front(*(end - 1));
+			max_elements->push_front(*(end)); // insert recursive
 			d->erase(end - 1);
+			std::cout << "plus petit" << std::endl;
+
 		}
+		std::cout << "max elements" << std::endl;
+		ft_print_T(max_elements->begin(), max_elements->end() - 1);
 	}
+	// ft_merge_max_elements(max_elements);
+
 	
 }
 
-void	ft_merge_max_elements(std::deque<unsigned long long> *me)
-{
-	std::deque<unsigned long long> left;
-	std::deque<unsigned long long> right;
-	size_t median = me->size() / 2;
-	
-	if (me->size() > 1)
-	{
-		
-	}
-}
+// void	ft_merge_max_elements(std::deque<unsigned long long> *me, d_it median)
+// {
+
+// }

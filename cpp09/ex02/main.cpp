@@ -26,5 +26,4 @@ int	main(int ac, char **av)
 	std::cout << "AFTER:\n";
 	ft_print_T(d.begin(), d.end());
 	ft_print_T(max_elements.begin(), max_elements.end());
-	ft_merge_max_elements(&max_elements);
 }
