@@ -47,29 +47,60 @@ void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::d
 
 	if (range == 2)
 	{
-		std::cout << "start = " << *start << " end = " << *(end) << std::endl;
-		if (*start > *(end))
+		std::cout << "start = " << *start << " end = " << *(end - 1) << std::endl;
+		if (*start > *(end - 1))
 		{
-			max_elements->push_front(*start); // insert recursive
+			// max_elements->push_front(*start); // insert recursive
+			ft_merge_max_elements(max_elements, *start, static_cast<int>(max_elements->size() / 2));
 			d->erase(start);
 			std::cout << "plus grand" << std::endl;
 		}
 		else
 		{
-			max_elements->push_front(*(end)); // insert recursive
+			// max_elements->push_front(*(end - 1)); // insert recursive
+			ft_merge_max_elements(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
 			d->erase(end - 1);
 			std::cout << "plus petit" << std::endl;
 
 		}
-		std::cout << "max elements" << std::endl;
-		ft_print_T(max_elements->begin(), max_elements->end() - 1);
 	}
-	// ft_merge_max_elements(max_elements);
-
-	
 }
 
-// void	ft_merge_max_elements(std::deque<unsigned long long> *me, d_it median)
-// {
+void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long long val, int median)
+{
+	// creer une partie left et right de me
+	std::deque<unsigned long long> left;
+	std::deque<unsigned long long> right;
 
-// }
+	if (me->empty())
+	{
+		me->push_back(val);
+		return ;
+	}
+	left.insert(left.begin(), me->begin(), me->begin() + median);
+	right.insert(right.begin(), me->begin() + median, me->end());
+	std::cout << "left" << std::endl;
+	ft_print_T(left.begin(), left.end());
+	std::cout << "right" << std::endl;
+	ft_print_T(right.begin(), right.end());
+	// comparer a la valeur median si elle est supp ou inf
+	if (me->size() > 1)
+	{
+		if (val > *(me->begin() +  median))
+		{
+			// si elle est supp refaire avec la median right
+			ft_merge_max_elements(&right, val, right.size() / 2);
+
+			// sinon avec la median left
+			ft_merge_max_elements(&left, val, left.size() / 2);
+		}
+	}
+	std::cout << "median d'insertion = " << median << std::endl;
+	if (val > *(me->begin() +  median))
+		me->push_back(val);
+	else
+		me->push_front(val);
+	std::cout << "max elements trie" << std::endl;
+	ft_print_T(me->begin(), me->end());
+	// repeter jusqua ce que la taille soit de 1
+}

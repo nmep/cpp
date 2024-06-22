@@ -61,6 +61,6 @@
 	}
 
 	void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements);
-	void	ft_merge_max_elements(std::deque<unsigned long long> *me);
+	void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long long val, int median);
 
 # endif
