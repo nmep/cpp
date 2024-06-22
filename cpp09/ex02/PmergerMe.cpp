@@ -74,33 +74,52 @@ void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long lon
 
 	if (me->empty())
 	{
+		std::cout << "free insert" << std::endl;
 		me->push_back(val);
 		return ;
 	}
+	std::cout << "nouvelle appel" << std::endl;
 	left.insert(left.begin(), me->begin(), me->begin() + median);
 	right.insert(right.begin(), me->begin() + median, me->end());
 	std::cout << "left" << std::endl;
 	ft_print_T(left.begin(), left.end());
 	std::cout << "right" << std::endl;
 	ft_print_T(right.begin(), right.end());
-	// comparer a la valeur median si elle est supp ou inf
+	std::cout << "value = " << val << std::endl;
+	// repeter jusqua ce que la taille soit de 1
 	if (me->size() > 1)
 	{
-		if (val > *(me->begin() +  median))
+		// comparer a la valeur median si elle est supp ou inf
+		std::cout << "recursive check " << val << " > " << *(me->begin() + median) << " ?" << std::endl;
+		if (val > *(me->begin() + median))
 		{
 			// si elle est supp refaire avec la median right
-			ft_merge_max_elements(&right, val, right.size() / 2);
+			std::cout << "recursive avec right" << std::endl;
+			ft_merge_max_elements(&right, val, me->size() / 2);
 
-			// sinon avec la median left
-			ft_merge_max_elements(&left, val, left.size() / 2);
+		}
+		// sinon avec la median left
+		else
+		{
+			std::cout << "recursive avec left" << std::endl;
+			ft_merge_max_elements(&left, val, me->size() / 2);
 		}
 	}
 	std::cout << "median d'insertion = " << median << std::endl;
-	if (val > *(me->begin() +  median))
+	std::cout << val << " > " << *(me->begin()) << " ?" << std::endl;
+	std::cout << "me" << std::endl;
+	ft_print_T(me->begin(), me->end());
+	if (val > *(me->begin()))
+	{
+		std::cout << "push back" << std::endl;
 		me->push_back(val);
+	}
+		// me->insert(me->begin() + median, val);
 	else
+	{
+		std::cout << "push front" << std::endl;
 		me->push_front(val);
+	}
 	std::cout << "max elements trie" << std::endl;
 	ft_print_T(me->begin(), me->end());
-	// repeter jusqua ce que la taille soit de 1
 }
