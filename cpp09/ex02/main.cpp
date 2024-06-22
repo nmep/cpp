@@ -16,11 +16,15 @@ int	main(int ac, char **av)
 	std::deque<unsigned long long> d;
 	if (ft_create_T(&d, ++av) == 0)
 		return 2;
-	ft_print_T(d);
 	std::vector<unsigned long long> v;
 	if (ft_create_T(&v, av) == 0)
 		return 2;
-	ft_print_T(v);
-
-	ft_FJ_deque(&d);
+	std::cout << "BEFORE:\n";
+	ft_print_T(d.begin(), d.end());
+	std::deque<unsigned long long> max_elements;
+	ft_FJ_deque(&d, d.begin(), d.end(), &max_elements);
+	std::cout << "AFTER:\n";
+	ft_print_T(d.begin(), d.end());
+	ft_print_T(max_elements.begin(), max_elements.end());
+	ft_merge_max_elements(&max_elements);
 }

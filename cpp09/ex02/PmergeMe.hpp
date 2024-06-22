@@ -6,11 +6,15 @@
 	# include <limits.h>
 	# include <vector>
 	# include <iterator> 
+	# include <algorithm>
 
 	// tools
 	unsigned long long ft_atoull(std::string & str);
 
 	// init
+
+	typedef std::deque<unsigned long long>::iterator d_it;
+
 
 	template <typename T>
 	int	ft_create_T(T *c, char **av)
@@ -39,12 +43,9 @@
 		return 1;
 	}
 
-	template <typename T>
-	void	ft_print_T(T & c)
+	template<typename Iterator>
+	void	ft_print_T(Iterator it, Iterator ite)
 	{
-		typename T::iterator it = c.begin();
-		typename T::iterator ite = c.end();
-
 		if (it == ite)
 		{
 			std::cout << "empty vector" << std::endl;
@@ -59,6 +60,7 @@
 		std::cout << "---------" << std::endl;
 	}
 
-	void	ft_FJ_deque(std::deque<unsigned long long> *d);
+	void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements);
+	void	ft_merge_max_elements(std::deque<unsigned long long> *me);
 
 # endif

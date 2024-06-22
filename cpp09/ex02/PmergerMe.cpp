@@ -27,13 +27,46 @@ unsigned long long	ft_atoull(std::string & str)
 	return res;
 }
 
-void	ft_FJ_deque(std::deque<unsigned long long> *d)
+void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements)
 {
-	ft_print_T(*d);
-	std::deque<unsigned long long>::iterator median = d->begin();
+	int range = std::distance(start, end);
 
-	for (size_t i = 0; i < d->size() / 2; i++) {
-		median++;
+	// std::cout << "nouvelle list" << std::endl;
+	// ft_print_T(start, end);
+	if (range > 2)
+	{
+		d_it median = start + range / 2;
+		if (range == 3)
+			median++;
+		std::cout << "la median est " << *median << std::endl;
+		ft_FJ_deque(d, start, median, max_elements);
+		ft_FJ_deque(d, median, end, max_elements);
 	}
-	// d->resize()
+
+	if (range == 2)
+	{
+		if (*start > *(end - 1))
+		{
+			max_elements->push_front(*start);
+			d->erase(start);
+		}
+		else
+		{
+			max_elements->push_front(*(end - 1));
+			d->erase(end - 1);
+		}
+	}
+	
+}
+
+void	ft_merge_max_elements(std::deque<unsigned long long> *me)
+{
+	std::deque<unsigned long long> left;
+	std::deque<unsigned long long> right;
+	size_t median = me->size() / 2;
+	
+	if (me->size() > 1)
+	{
+		
+	}
 }
