@@ -109,6 +109,7 @@ void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long lon
 	std::cout << val << " > " << *(me->begin()) << " ?" << std::endl;
 	std::cout << "me" << std::endl;
 	ft_print_T(me->begin(), me->end());
+
 	if (val > *(me->begin()))
 	{
 		std::cout << "push back" << std::endl;
