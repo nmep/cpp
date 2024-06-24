@@ -22,8 +22,10 @@ int	main(int ac, char **av)
 	std::cout << "BEFORE:\n";
 	ft_print_T(d.begin(), d.end());
 	std::deque<unsigned long long> max_elements;
+	// etape 1 
 	ft_FJ_deque(&d, d.begin(), d.end(), &max_elements);
-	std::cout << "AFTER:\n";
 	ft_print_T(d.begin(), d.end());
 	ft_print_T(max_elements.begin(), max_elements.end());
+	// etape 3
+	ft_insert_in_max_elements(&d, &max_elements);
 }

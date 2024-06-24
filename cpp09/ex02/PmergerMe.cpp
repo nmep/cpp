@@ -27,7 +27,8 @@ unsigned long long	ft_atoull(std::string & str)
 	return res;
 }
 
-void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements)
+void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end,\
+	 std::deque<unsigned long long> *max_elements)
 {
 	int range = std::distance(start, end);
 
@@ -51,22 +52,21 @@ void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::d
 		if (*start > *(end - 1))
 		{
 			// max_elements->push_front(*start); // insert recursive
-			ft_merge_max_elements(max_elements, *start, static_cast<int>(max_elements->size() / 2));
+			ft_binary_search_insertion_elements(max_elements, *start, static_cast<int>(max_elements->size() / 2));
 			d->erase(start);
 			std::cout << "plus grand" << std::endl;
 		}
 		else
 		{
 			// max_elements->push_front(*(end - 1)); // insert recursive
-			ft_merge_max_elements(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
+			ft_binary_search_insertion_elements(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
 			d->erase(end - 1);
 			std::cout << "plus petit" << std::endl;
-
 		}
 	}
 }
 
-void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long long val, int median)
+bool	ft_binary_search_insertion_elements(std::deque<unsigned long long> *me, unsigned long long val, int median)
 {
 	// creer une partie left et right de me
 	std::deque<unsigned long long> left;
@@ -76,51 +76,113 @@ void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long lon
 	{
 		std::cout << "free insert" << std::endl;
 		me->push_back(val);
-		return ;
+		return true;
 	}
 	std::cout << "nouvelle appel" << std::endl;
-	left.insert(left.begin(), me->begin(), me->begin() + median);
-	right.insert(right.begin(), me->begin() + median, me->end());
-	std::cout << "left" << std::endl;
-	ft_print_T(left.begin(), left.end());
-	std::cout << "right" << std::endl;
-	ft_print_T(right.begin(), right.end());
-	std::cout << "value = " << val << std::endl;
-	// repeter jusqua ce que la taille soit de 1
+
 	if (me->size() > 1)
 	{
+		std::cout << "me:" << std::endl;
+		ft_print_T(me->begin(), me->end());
+		std::cout << "median = " << median << std::endl;
+		left.insert(left.begin(), me->begin(), me->begin() + median);
+		std::cout << "left" << std::endl;
+		ft_print_T(left.begin(), left.end());
+
+		right.insert(right.begin(), me->begin() + median, me->end());
+		std::cout << "right" << std::endl;
+		ft_print_T(right.begin(), right.end());
+
+		std::cout << "value = " << val << std::endl;
+	// repeter jusqua ce que la taille soit de 1
 		// comparer a la valeur median si elle est supp ou inf
+		std::cout << "median = " << median << std::endl;
+		std::cout << "size de me = " << me->size() << std::endl;
+
 		std::cout << "recursive check " << val << " > " << *(me->begin() + median) << " ?" << std::endl;
+		// si elle est supp refaire avec la median right
 		if (val > *(me->begin() + median))
 		{
-			// si elle est supp refaire avec la median right
+			// si la fonction a trouver et a inserer la valeur clear me et merge left et right puis return
 			std::cout << "recursive avec right" << std::endl;
-			ft_merge_max_elements(&right, val, me->size() / 2);
-
+			if (ft_binary_search_insertion_elements(&right, val, right.size() / 2))
+			{
+				me->clear();
+				me->insert(me->begin(), left.begin(), left.end());
+				me->insert(me->end(), right.begin(), right.end());
+				return true;
+			}
+			// le return permet de ne pas continuer si on a trouver ou insert la valeur
+			// sinon elle sera reinsserre ailleur
 		}
 		// sinon avec la median left
 		else
 		{
 			std::cout << "recursive avec left" << std::endl;
-			ft_merge_max_elements(&left, val, me->size() / 2);
+			if (ft_binary_search_insertion_elements(&left, val, right.size() / 2))
+			{
+				me->clear();
+				me->insert(me->begin(), left.begin(), left.end());
+				me->insert(me->end(), right.begin(), right.end());
+				return true;
+			}
+			// std::cout << "taile de me = " << me->size() / 2 << std::endl;
+			ft_binary_search_insertion_elements(&left, val, left.size() / 2);
 		}
 	}
+	std::cout << "ME AVANT INSERTION ? " << std::endl;
+	ft_print_T(me->begin(), me->end());
+	std::cout << "j'insert" << std::endl;
 	std::cout << "median d'insertion = " << median << std::endl;
 	std::cout << val << " > " << *(me->begin()) << " ?" << std::endl;
-	std::cout << "me" << std::endl;
-	ft_print_T(me->begin(), me->end());
 
 	if (val > *(me->begin()))
 	{
-		std::cout << "push back" << std::endl;
-		me->push_back(val);
+		std::cout << "insert + 1" << std::endl;
+		me->insert(me->begin() + 1, val);
+		return true;
 	}
-		// me->insert(me->begin() + median, val);
 	else
 	{
-		std::cout << "push front" << std::endl;
-		me->push_front(val);
+		std::cout << "insert" << std::endl;
+		me->insert(me->begin(), val);
+		return true;
 	}
-	std::cout << "max elements trie" << std::endl;
-	ft_print_T(me->begin(), me->end());
+	return false;
+}
+
+// insert un a un les elements de d dans max_elements par dichotomie
+void	ft_insert_in_max_elements(std::deque<unsigned long long> *d, std::deque<unsigned long long> *max_elements)
+{
+	// prendre le premier element de d et l'envoyer dans bsi
+	std::cout << "QWERQWERQWERWEQEQWRQWWEQ avant insertion dans me" << std::endl;
+	if (d->size() != 0)
+		ft_print_T(d->begin(), d->end());
+	ft_print_T(max_elements->begin(), max_elements->end());
+	if (d->size() != 0)
+	{
+
+		std::cout << RED << "avant insertion:" << RESET << std::endl;
+		std::cout << "d:" << std::endl;
+		ft_print_T(d->begin(), d->end());
+		std::cout << "max element" << std::endl;
+		ft_print_T(max_elements->begin(), max_elements->end());
+
+
+		ft_binary_search_insertion_elements(max_elements, *(d->begin()), max_elements->size() / 2);
+		d->erase(d->begin());
+		std::cout << RED << "apres insertion:" << RESET << std::endl;
+		std::cout << "d:" << std::endl;
+		ft_print_T(d->begin(), d->end());
+		std::cout << "max element" << std::endl;
+		ft_print_T(max_elements->begin(), max_elements->end());
+		// supprimer le premier element de d
+
+		// refaire jusqu'a que d soit vide
+		ft_insert_in_max_elements(d, max_elements);
+
+	}
+	
+	// une fois que d est vide copier me dans d
+	// supprimer me
 }

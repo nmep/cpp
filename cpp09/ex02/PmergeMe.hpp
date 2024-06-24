@@ -8,6 +8,9 @@
 	# include <iterator> 
 	# include <algorithm>
 
+	# define RED "\033[31m"
+	# define RESET "\033[0m"
+
 	// tools
 	unsigned long long ft_atoull(std::string & str);
 
@@ -61,6 +64,7 @@
 	}
 
 	void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements);
-	void	ft_merge_max_elements(std::deque<unsigned long long> *me, unsigned long long val, int median);
+	bool	ft_binary_search_insertion_elements(std::deque<unsigned long long> *me, unsigned long long val, int median);
+	void	ft_insert_in_max_elements(std::deque<unsigned long long> *d, std::deque<unsigned long long> *max_elements);
 
 # endif
