@@ -163,26 +163,37 @@ void	ft_insert_in_max_elements(std::deque<unsigned long long> *d, std::deque<uns
 	{
 
 		std::cout << RED << "avant insertion:" << RESET << std::endl;
+
 		std::cout << "d:" << std::endl;
 		ft_print_T(d->begin(), d->end());
+
 		std::cout << "max element" << std::endl;
 		ft_print_T(max_elements->begin(), max_elements->end());
-
 
 		ft_binary_search_insertion_elements(max_elements, *(d->begin()), max_elements->size() / 2);
-		d->erase(d->begin());
+		
 		std::cout << RED << "apres insertion:" << RESET << std::endl;
+
 		std::cout << "d:" << std::endl;
 		ft_print_T(d->begin(), d->end());
+		
 		std::cout << "max element" << std::endl;
 		ft_print_T(max_elements->begin(), max_elements->end());
+		
+		
 		// supprimer le premier element de d
+		d->erase(d->begin());
 
 		// refaire jusqu'a que d soit vide
 		ft_insert_in_max_elements(d, max_elements);
-
 	}
 	
 	// une fois que d est vide copier me dans d
-	// supprimer me
+	else
+	{
+		d->clear();
+		d->insert(d->begin(), max_elements->begin(), max_elements->end());
+		// supprimer me
+		max_elements->clear();
+	}
 }
