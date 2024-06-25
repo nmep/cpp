@@ -17,7 +17,7 @@
 	// init
 
 	typedef std::deque<unsigned long long>::iterator d_it;
-
+	typedef std::vector<unsigned long long>::iterator v_it;
 
 	template <typename T>
 	int	ft_create_T(T *c, char **av)
@@ -63,8 +63,18 @@
 		std::cout << "---------" << std::endl;
 	}
 
-	void	ft_FJ_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements);
-	bool	ft_binary_search_insertion_elements(std::deque<unsigned long long> *me, unsigned long long val, int median);
-	void	ft_insert_in_max_elements(std::deque<unsigned long long> *d, std::deque<unsigned long long> *max_elements);
 
+	// FJ for deque
+	void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it start, d_it end, std::deque<unsigned long long> *max_elements);
+	bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *me, unsigned long long val, int median);
+	void	ft_insert_in_max_elements_deque(std::deque<unsigned long long> *d, std::deque<unsigned long long> *max_elements);
+
+	void	ft_FordJohnsonDeque(std::deque<unsigned long long> *d);
+
+	// FJ for vector
+	void	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it start, v_it end, std::vector<unsigned long long> *max_elements);
+	bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> *me, unsigned long long val, int median);
+	void	ft_insert_in_max_elements_vector(std::vector<unsigned long long> *v, std::vector<unsigned long long> *max_elements);
+
+	void	ft_FordJohnsonVector(std::vector<unsigned long long> *v);
 # endif
