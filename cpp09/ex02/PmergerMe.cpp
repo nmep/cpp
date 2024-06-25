@@ -221,6 +221,8 @@ void	ft_FordJohnsonDeque(std::deque<unsigned long long> *d)
 	// etape 2
 	ft_insert_in_max_elements_deque(d, &max_elements);
 
+	std::cout << RED << "AFTER D:\n" << RESET;
+	ft_print_T(d->begin(), d->end());
 	std::cout << "ME" << std::endl;
 	ft_print_T(max_elements.begin(), max_elements.end());
 }
@@ -422,7 +424,7 @@ void	ft_FordJohnsonVector(std::vector<unsigned long long> *v)
 	// etape 2
 	ft_insert_in_max_elements_vector(v, &max_elements);
 
-	std::cout << "AFTER V:\n";
+	std::cout << RED << "AFTER V:\n" << RESET;
 	ft_print_T(v->begin(), v->end());
 	std::cout << "ME" << std::endl;
 	ft_print_T(max_elements.begin(), max_elements.end());
