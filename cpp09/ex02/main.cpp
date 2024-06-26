@@ -32,5 +32,6 @@ int	main(int ac, char **av)
 
 	ft_FordJohnsonVector(&v);
 
-
+	std::cout << "AFTER V:\n";
+	ft_print_T(v.begin(), v.end());
 }
