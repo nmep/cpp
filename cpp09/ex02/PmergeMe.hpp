@@ -7,6 +7,9 @@
 	# include <vector>
 	# include <iterator> 
 	# include <algorithm>
+	# include <ctime>
+	# include <iomanip>
+	# include <cassert>
 
 	# define RED "\033[31m"
 	# define RESET "\033[0m"
@@ -54,13 +57,11 @@
 			std::cout << "empty vector" << std::endl;
 			return ;
 		}
-		std::cout << "---------" << std::endl;
 		for (/**/; it != ite; ++it)
 		{
 			std::cout << *it << ' ';
 		}
 		std::cout << std::endl;
-		std::cout << "---------" << std::endl;
 	}
 
 
@@ -76,5 +77,5 @@
 	bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> *me, unsigned long long val, int median);
 	void	ft_insert_in_max_elements_vector(std::vector<unsigned long long> *v, std::vector<unsigned long long> *max_elements);
 
-	void	ft_FordJohnsonVector(std::vector<unsigned long long> *v);
+	void	ft_FordJohnsonvector(std::vector<unsigned long long> *v);
 # endif

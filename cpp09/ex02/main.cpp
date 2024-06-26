@@ -15,23 +15,23 @@ int	main(int ac, char **av)
 	if (ft_create_T(&v, av) == 0)
 		return 2;
 // DEQUE
-	std::cout << "DEQUE" << std::endl;
-	
-	std::cout << "BEFORE:\n";
-	ft_print_T(d.begin(), d.end());
 
+	std::cout << "before: ";
+	ft_print_T(d.begin(), d.end());
+	
+	std::clock_t cpu_start_d = std::clock();
+	
 	ft_FordJohnsonDeque(&d);
-
-	std::cout << "AFTER:\n";
-	ft_print_T(d.begin(), d.end());
-
-	std::cout << RED << "VECTOR" << RESET << std::endl;
 	
-	std::cout << "BEFORE V:\n";
-	ft_print_T(v.begin(), v.end());
+	double cpu_end_d= (std::clock() - cpu_start_d) * (1.0 / CLOCKS_PER_SEC);
 
-	ft_FordJohnsonVector(&v);
+	std::cout << "after: ";
+	ft_print_T(d.begin(), d.end());
+	std::cout << "Time to process a range of " << d.size() << " elements with std::deque : " << std::fixed << std::setprecision(6) << cpu_end_d << " μs" << std::endl;
 
-	std::cout << "AFTER V:\n";
-	ft_print_T(v.begin(), v.end());
+
+	std::clock_t cpu_start_v = std::clock();
+	ft_FordJohnsonvector(&v);
+	double cpu_end_v = (std::clock() - cpu_start_v) * (1.0 / CLOCKS_PER_SEC);
+	std::cout << "Time to process a range of " << d.size() << " elements with std::vector : " << std::fixed << std::setprecision(6) << cpu_end_v << " μs" << std::endl;
 }

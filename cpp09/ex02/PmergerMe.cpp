@@ -46,6 +46,8 @@ void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it sta
 {
 	int range = std::distance(start, end);
 
+	std::cout << "me:" << std::endl;
+	ft_print_T(max_elements->begin(), max_elements->end());
 	if (range > 2)
 	{
 		d_it median = start + range / 2;
@@ -57,17 +59,20 @@ void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it sta
 
 	if (range == 2)
 	{
-		if (*start > *(end - 1))
+		std::cout << "d: "; ft_print_T(start, end); std::cout << *start << " > " << *(end - 1) << std::endl;
+		if (*start > *(start + 1))
 		{
-			// max_elements->push_front(*start); // insert recursive
 			ft_binary_search_insertion_elements_deque(max_elements, *start, static_cast<int>(max_elements->size() / 2));
 			d->erase(start);
 		}
 		else
 		{
-			// max_elements->push_front(*(end - 1)); // insert recursive
-			ft_binary_search_insertion_elements_deque(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
+			ft_binary_search_insertion_elements_deque(max_elements, *(start + 1), static_cast<int>(max_elements->size() / 2));
+		 	std::cout << "Erasing element at position: " << std::distance(start, end) << "\n\n" << std::endl;
+			std::cout << "ici" << std::endl;
+			std::cout << "end - 1 = " << *(end) << std::endl;
 			d->erase(end - 1);
+			std::cout << "SEGFAULT ?" << std::endl;
 		}
 	}
 }
@@ -94,6 +99,7 @@ bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *m
 		// comparer a la valeur median si elle est supp ou inf
 
 		// si elle est supp refaire avec la median right
+		std::cout << "median = " << median << " | dist = " << std::distance(me->begin(), me->end()) << std::endl;
 		if (val > *(me->begin() + median))
 		{
 			// si la fonction a trouver et a inserer la valeur clear me et merge left et right puis return
@@ -120,7 +126,6 @@ bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *m
 			ft_binary_search_insertion_elements_deque(&left, val, left.size() / 2);
 		}
 	}
-
 	if (val > *(me->begin()))
 	{
 		me->insert(me->begin() + 1, val);
@@ -172,7 +177,7 @@ void	ft_FordJohnsonDeque(std::deque<unsigned long long> *d)
 // ---------------------------------------------//
 
 
-//					VECTOR
+//					vector
 
 
 // ---------------------------------------------//
@@ -191,7 +196,7 @@ void	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it s
 		v_it median = start + range / 2;
 		if (range == 3)
 			median++;
-		ft_merge_sort_max_element_vector(v, start, median, max_elements);
+		ft_merge_sort_max_element_vector(v, start, median - 1, max_elements);
 		ft_merge_sort_max_element_vector(v, median, end, max_elements);
 	}
 
@@ -205,11 +210,8 @@ void	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it s
 		else
 		{
 			// max_elements->push_front(*(end - 1)); // insert recursive
-			ft_binary_search_insertion_elements_vector(max_elements, *(start + 1), static_cast<int>(max_elements->size() / 2));
-			std::cout << "ici\n";
-			std::cout << *(end - 1) << std::endl;
-			ft_print_T(v->begin(), v->end());
-			// v->erase(start + 1);
+			ft_binary_search_insertion_elements_vector(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
+			// end = v->erase(end - 1);
 		}
 	}
 }
@@ -231,7 +233,7 @@ bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> 
 		left.insert(left.begin(), me->begin(), me->begin() + median);
 
 		right.insert(right.begin(), me->begin() + median, me->end());
-	// repeter jusqua ce que la taille soit de 1
+		// repeter jusqua ce que la taille soit de 1
 		// comparer a la valeur median si elle est supp ou inf
 		// si elle est supp refaire avec la median right
 		if (val > *(me->begin() + median))
@@ -295,7 +297,7 @@ void	ft_insert_in_max_elements_vector(std::vector<unsigned long long> *v, std::v
 	}
 }
 
-void	ft_FordJohnsonVector(std::vector<unsigned long long> *v)
+void	ft_FordJohnsonvector(std::vector<unsigned long long> *v)
 {
 	std::vector<unsigned long long> max_elements;
 
@@ -304,4 +306,5 @@ void	ft_FordJohnsonVector(std::vector<unsigned long long> *v)
 
 	// etape 2
 	ft_insert_in_max_elements_vector(v, &max_elements);
+
 }
