@@ -41,7 +41,7 @@ unsigned long long	ft_atoull(std::string & str)
 
 
 
-void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it start, d_it end,\
+bool	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it start, d_it end,\
 	 std::deque<unsigned long long> *max_elements)
 {
 	int range = std::distance(start, end);
@@ -49,29 +49,29 @@ void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it sta
 	if (range > 2)
 	{
 		d_it median = start + range / 2;
-		// if (range == 3)
-		// 	median++;
-		ft_merge_sort_max_element_deque(d, start, median, max_elements);
-		ft_merge_sort_max_element_deque(d, median + 1, end, max_elements);
+		if (ft_merge_sort_max_element_deque(d, start, median, max_elements))
+			return true;
+		// std::cout << "autre partie" << std::endl;
+		if (ft_merge_sort_max_element_deque(d, median, end, max_elements))
+			return true;
 	}
 
 	if (range == 2)
 	{
-		// std::cout << "d distance = " << std::distance(start, end) << ":" << std::endl ;
 		if (*start > *(end))
 		{
 			ft_binary_search_insertion_elements_deque(max_elements, *start, static_cast<int>(max_elements->size() / 2));
 			d->erase(start);
+			return true;
 		}
 		else
 		{
 			ft_binary_search_insertion_elements_deque(max_elements, *(end), static_cast<int>(max_elements->size() / 2));
-		 	// std::cout << "Erasing element at position: " << std::distance(start, end) << "\n\n" << std::endl;
-			// std::cout << "ici" << std::endl;
-			// std::cout << "end = " << *(end) << std::endl;
 			d->erase(end);
+			return true;
 		}
 	}
+	return false;
 }
 
 bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *me, unsigned long long val, int median)
@@ -96,10 +96,12 @@ bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *m
 		// comparer a la valeur median si elle est supp ou inf
 
 		// si elle est supp refaire avec la median right
-		if (val > *(me->begin() + median))
+		if (std::distance(me->begin(), me->end()) == median)
+			median--;
+		if (val > (*me)[median])
 		{
 			// si la fonction a trouver et a inserer la valeur clear me et merge left et right puis return
-			if (ft_binary_search_insertion_elements_deque(&right, val, right.size() / 2))
+			if (ft_binary_search_insertion_elements_deque(&right, val, right.size() * 0.5))
 			{
 				me->clear();
 				me->insert(me->begin(), left.begin(), left.end());
@@ -112,14 +114,14 @@ bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *m
 		// sinon avec la median left
 		else
 		{
-			if (ft_binary_search_insertion_elements_deque(&left, val, right.size() / 2))
+			if (ft_binary_search_insertion_elements_deque(&left, val, left.size() * 0.5))
 			{
 				me->clear();
 				me->insert(me->begin(), left.begin(), left.end());
 				me->insert(me->end(), right.begin(), right.end());
 				return true;
 			}
-			ft_binary_search_insertion_elements_deque(&left, val, left.size() / 2);
+			ft_binary_search_insertion_elements_deque(&left, val, left.size() * 0.5);
 		}
 	}
 	if (val > *(me->begin()))
@@ -182,7 +184,7 @@ void	ft_FordJohnsonDeque(std::deque<unsigned long long> *d)
 
 
 
-void	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it start, v_it end,\
+bool	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it start, v_it end,\
 	 std::vector<unsigned long long> *max_elements)
 {
 	int range = std::distance(start, end);
@@ -190,26 +192,29 @@ void	ft_merge_sort_max_element_vector(std::vector<unsigned long long> *v, v_it s
 	if (range > 2)
 	{
 		v_it median = start + range / 2;
-		if (range == 3)
-			median++;
-		ft_merge_sort_max_element_vector(v, start, median - 1, max_elements);
-		ft_merge_sort_max_element_vector(v, median, end, max_elements);
+		if (ft_merge_sort_max_element_vector(v, start, median, max_elements))
+			return true;
+		// std::cout << "autre partie" << std::endl;
+		if (ft_merge_sort_max_element_vector(v, median, end, max_elements))
+			return true;
 	}
 
 	if (range == 2)
 	{
-		if (*start > *(end - 1))
+		if (*start > *(end))
 		{
 			ft_binary_search_insertion_elements_vector(max_elements, *start, static_cast<int>(max_elements->size() / 2));
-			start = v->erase(start);
+			v->erase(start);
+			return true;
 		}
 		else
 		{
-			// max_elements->push_front(*(end - 1)); // insert recursive
-			ft_binary_search_insertion_elements_vector(max_elements, *(end - 1), static_cast<int>(max_elements->size() / 2));
-			// end = v->erase(end - 1);
+			ft_binary_search_insertion_elements_vector(max_elements, *(end), static_cast<int>(max_elements->size() / 2));
+			v->erase(end);
+			return true;
 		}
 	}
+	return false;
 }
 
 bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> *me, unsigned long long val, int median)
@@ -229,13 +234,17 @@ bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> 
 		left.insert(left.begin(), me->begin(), me->begin() + median);
 
 		right.insert(right.begin(), me->begin() + median, me->end());
-		// repeter jusqua ce que la taille soit de 1
+
+	// repeter jusqua ce que la taille soit de 1
 		// comparer a la valeur median si elle est supp ou inf
+
 		// si elle est supp refaire avec la median right
-		if (val > *(me->begin() + median))
+		if (std::distance(me->begin(), me->end()) == median)
+			median--;
+		if (val > (*me)[median])
 		{
 			// si la fonction a trouver et a inserer la valeur clear me et merge left et right puis return
-			if (ft_binary_search_insertion_elements_vector(&right, val, right.size() / 2))
+			if (ft_binary_search_insertion_elements_vector(&right, val, right.size() * 0.5))
 			{
 				me->clear();
 				me->insert(me->begin(), left.begin(), left.end());
@@ -248,17 +257,16 @@ bool	ft_binary_search_insertion_elements_vector(std::vector<unsigned long long> 
 		// sinon avec la median left
 		else
 		{
-			if (ft_binary_search_insertion_elements_vector(&left, val, right.size() / 2))
+			if (ft_binary_search_insertion_elements_vector(&left, val, left.size() * 0.5))
 			{
 				me->clear();
 				me->insert(me->begin(), left.begin(), left.end());
 				me->insert(me->end(), right.begin(), right.end());
 				return true;
 			}
-			ft_binary_search_insertion_elements_vector(&left, val, left.size() / 2);
+			ft_binary_search_insertion_elements_vector(&left, val, left.size() * 0.5);
 		}
 	}
-
 	if (val > *(me->begin()))
 	{
 		me->insert(me->begin() + 1, val);

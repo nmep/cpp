@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	std::cout << "before: ";
 	ft_print_T(d.begin(), d.end());
-	
+	std::cout << std::endl;
 	std::clock_t cpu_start_d = std::clock();
 	
 	ft_FordJohnsonDeque(&d);
@@ -33,5 +33,5 @@ int	main(int ac, char **av)
 	std::clock_t cpu_start_v = std::clock();
 	ft_FordJohnsonvector(&v);
 	double cpu_end_v = (std::clock() - cpu_start_v) * (1.0 / CLOCKS_PER_SEC);
-	std::cout << "Time to process a range of " << d.size() << " elements with std::vector : " << std::fixed << std::setprecision(6) << cpu_end_v << " μs" << std::endl;
+	std::cout << "Time to process a range of " << v.size() << " elements with std::vector : " << std::fixed << std::setprecision(6) << cpu_end_v << " μs" << std::endl;
 }
