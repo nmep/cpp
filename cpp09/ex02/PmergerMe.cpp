@@ -46,33 +46,30 @@ void	ft_merge_sort_max_element_deque(std::deque<unsigned long long> *d, d_it sta
 {
 	int range = std::distance(start, end);
 
-	std::cout << "me:" << std::endl;
-	ft_print_T(max_elements->begin(), max_elements->end());
 	if (range > 2)
 	{
 		d_it median = start + range / 2;
-		if (range == 3)
-			median++;
+		// if (range == 3)
+		// 	median++;
 		ft_merge_sort_max_element_deque(d, start, median, max_elements);
-		ft_merge_sort_max_element_deque(d, median, end, max_elements);
+		ft_merge_sort_max_element_deque(d, median + 1, end, max_elements);
 	}
 
 	if (range == 2)
 	{
-		std::cout << "d: "; ft_print_T(start, end); std::cout << *start << " > " << *(end - 1) << std::endl;
-		if (*start > *(start + 1))
+		// std::cout << "d distance = " << std::distance(start, end) << ":" << std::endl ;
+		if (*start > *(end))
 		{
 			ft_binary_search_insertion_elements_deque(max_elements, *start, static_cast<int>(max_elements->size() / 2));
 			d->erase(start);
 		}
 		else
 		{
-			ft_binary_search_insertion_elements_deque(max_elements, *(start + 1), static_cast<int>(max_elements->size() / 2));
-		 	std::cout << "Erasing element at position: " << std::distance(start, end) << "\n\n" << std::endl;
-			std::cout << "ici" << std::endl;
-			std::cout << "end - 1 = " << *(end) << std::endl;
-			d->erase(end - 1);
-			std::cout << "SEGFAULT ?" << std::endl;
+			ft_binary_search_insertion_elements_deque(max_elements, *(end), static_cast<int>(max_elements->size() / 2));
+		 	// std::cout << "Erasing element at position: " << std::distance(start, end) << "\n\n" << std::endl;
+			// std::cout << "ici" << std::endl;
+			// std::cout << "end = " << *(end) << std::endl;
+			d->erase(end);
 		}
 	}
 }
@@ -99,7 +96,6 @@ bool	ft_binary_search_insertion_elements_deque(std::deque<unsigned long long> *m
 		// comparer a la valeur median si elle est supp ou inf
 
 		// si elle est supp refaire avec la median right
-		std::cout << "median = " << median << " | dist = " << std::distance(me->begin(), me->end()) << std::endl;
 		if (val > *(me->begin() + median))
 		{
 			// si la fonction a trouver et a inserer la valeur clear me et merge left et right puis return
